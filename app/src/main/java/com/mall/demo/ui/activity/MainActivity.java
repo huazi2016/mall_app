@@ -158,6 +158,34 @@ public class MainActivity extends AppCompatActivity {
         mLastIndex = index;
     }
 
+    private void switchFragment(int index, boolean isShow) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        // 将当前显示的fragment和上一个需要隐藏的fragment分别加上tag, 并获取出来
+        // 给fragment添加tag,这样可以通过findFragmentByTag找到存在的fragment，不会出现重复添加
+        mCurrentFragment = fragmentManager.findFragmentByTag("fragment" + index);
+        mLastFragment = fragmentManager.findFragmentByTag("fragment" + mLastIndex);
+        // 如果位置不同
+        if (index != mLastIndex) {
+            if (mLastFragment != null) {
+                transaction.hide(mLastFragment);
+            }
+            mCurrentFragment = getFragment(index);
+            transaction.add(R.id.container, mCurrentFragment, "fragment" + index);
+            transaction.show(mCurrentFragment);
+        }
+
+        // 如果位置相同或者新启动的应用
+        if (index == mLastIndex) {
+            if (mCurrentFragment == null) {
+                mCurrentFragment = getFragment(index);
+                transaction.add(R.id.container, mCurrentFragment, "fragment" + index);
+            }
+        }
+        transaction.commit();
+        mLastIndex = index;
+    }
+
     private Fragment getFragment(int index) {
         Fragment fragment = mFragmentSparseArray.get(index);
         if (fragment == null) {
@@ -231,10 +259,6 @@ public class MainActivity extends AppCompatActivity {
             } else if (event.type == EventBo.TYPE_STOP_ANIMATION) {
                 mLoadingView.setVisibility(View.GONE);
             }
-        } else if (event.target == 1001){
-            ToastUtils.showShort("切换");
-            mBottomNavigationView.setSelectedItemId(R.id.menu_square);
-            switchFragment(INDEX_SQUARE);
         }
     }
 }

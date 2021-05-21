@@ -140,24 +140,14 @@ public class GoodsActivity extends BaseActivity {
                                 public void run() {
                                     MallDao mallDao = MyApp.room.mallDao();
                                     mallDao.insertAll(infoBo);
-                                    //List<MallBo> mallList = mallDao.getAllInfo();
-                                    //if (CollectionUtils.isNotEmpty(mallList)) {
-                                    //    for (MallBo mallBo : mallList) {
-                                    //        if (mallBo.name.equalsIgnoreCase(infoBo.name)) {
-                                    //            //mallDao.delete(mallBo);
-                                    //            mallDao.insertAll(infoBo);
-                                    //        }
-                                    //    }
-                                    //}
                                     runOnUiThread(new Runnable() {
                                         @Override
                                         public void run() {
                                             ToastUtils.showShort("购买完成");
                                             EventBo bo = new EventBo();
                                             bo.target = 1001;
-                                            EventBus.getDefault().post(bo);
+                                            OrderActivity.launchActivity(activity);
                                             finish();
-                                            //MainActivity.launchActivity(activity);
                                         }
                                     });
                                 }
