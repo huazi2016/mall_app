@@ -13,12 +13,31 @@ android {
         versionName "3.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
-    buildTypes {
+
+    signingConfigs {
         release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            keyAlias 'mallapp'
+            keyPassword 'mall123'
+            storeFile file('/Users/skycn/Code/law_app/app/law.jks')
+            storePassword 'mall123'
         }
     }
+
+    buildTypes {
+        release {
+            minifyEnabled false//true开启混淆
+            //zipAlignEnabled true
+            //shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+        debug {//省略}
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            //signingConfig signingConfigs.duqian_android_keystore
+        }
+    }
+
     compileOptions {
         sourceCompatibility = 1.8
         targetCompatibility = 1.8

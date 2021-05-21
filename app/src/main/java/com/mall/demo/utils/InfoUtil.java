@@ -36,8 +36,8 @@ public class InfoUtil {
 
         MallBo bo02 = new MallBo();
         bo02.img = "2";
-        bo02.name = "康恩贝肠炎宁片";
-        bo02.subtitle = "拉肚子用肠炎宁, 一身轻松";
+        bo02.name = "前列康普乐安胶囊";
+        bo02.subtitle = "功效是补肾，如果身体经常出现肾虚之后，可以通过吃这种药物来进行治疗";
         bo02.price = "25.2";
         bo02.order = 0;
         bo02.username = username;
@@ -46,8 +46,8 @@ public class InfoUtil {
 
         MallBo bo03 = new MallBo();
         bo03.img = "3";
-        bo03.name = "康恩贝肠炎宁片";
-        bo03.subtitle = "拉肚子用肠炎宁, 一身轻松";
+        bo03.name = "白云山好筋健腰丸";
+        bo03.subtitle = "补益肝肾，强健筋骨，驱风除湿，活络止痛。用于腰膝酸痛";
         bo03.price = "25.2";
         bo03.order = 0;
         bo03.username = username;
@@ -56,8 +56,8 @@ public class InfoUtil {
 
         MallBo bo04 = new MallBo();
         bo04.img = "4";
-        bo04.name = "康恩贝肠炎宁片";
-        bo04.subtitle = "拉肚子用肠炎宁, 一身轻松";
+        bo04.name = "感康复方氨酚烷片";
+        bo04.subtitle = "每片含对乙酰氨基酚250毫克，盐酸金刚烷胺100毫克，人工牛黄10毫克";
         bo04.price = "25.2";
         bo04.order = 0;
         bo04.username = username;
@@ -66,8 +66,8 @@ public class InfoUtil {
 
         MallBo bo05 = new MallBo();
         bo05.img = "5";
-        bo05.name = "康恩贝肠炎宁片";
-        bo05.subtitle = "拉肚子用肠炎宁, 一身轻松";
+        bo05.name = "西洋参";
+        bo05.subtitle = "一种补而不燥、男女老少皆宜的高级保健品";
         bo05.price = "25.2";
         bo05.order = 0;
         bo05.username = username;
@@ -76,8 +76,8 @@ public class InfoUtil {
 
         MallBo bo06 = new MallBo();
         bo06.img = "6";
-        bo06.name = "康恩贝肠炎宁片";
-        bo06.subtitle = "拉肚子用肠炎宁, 一身轻松";
+        bo06.name = "精品西洋参";
+        bo06.subtitle = "形状有椭圆形和纺锤形，外皮表面呈浅黄色，较细致光滑，生长茂盛，断面的纹理具有菊花状";
         bo06.price = "25.2";
         bo06.order = 0;
         bo06.username = username;
@@ -86,8 +86,8 @@ public class InfoUtil {
 
         MallBo bo07 = new MallBo();
         bo07.img = "7";
-        bo07.name = "康恩贝肠炎宁片";
-        bo07.subtitle = "拉肚子用肠炎宁, 一身轻松";
+        bo07.name = "同仁堂红参片";
+        bo07.subtitle = "可制红参粉红参茶饮品无糖蒸制工艺长白山人参";
         bo07.price = "25.2";
         bo07.order = 0;
         bo07.username = username;
@@ -96,8 +96,8 @@ public class InfoUtil {
 
         MallBo bo08 = new MallBo();
         bo08.img = "8";
-        bo08.name = "康恩贝肠炎宁片";
-        bo08.subtitle = "拉肚子用肠炎宁, 一身轻松";
+        bo08.name = "同仁堂五子衍宗丸";
+        bo08.subtitle = "补肾益精。用于肾虚精亏所致的阳痿不育、遗精早泄、腰痛、尿后余沥";
         bo08.price = "25.2";
         bo08.order = 0;
         bo08.username = username;
@@ -106,8 +106,8 @@ public class InfoUtil {
 
         MallBo bo09 = new MallBo();
         bo09.img = "9";
-        bo09.name = "康恩贝肠炎宁片";
-        bo09.subtitle = "拉肚子用肠炎宁, 一身轻松";
+        bo09.name = "灵芝子粉胶囊";
+        bo09.subtitle = "宁心安神，健脾和胃。用于失眠健忘，身体虚弱，神经衰弱";
         bo09.price = "25.2";
         bo09.order = 0;
         bo09.username = username;
@@ -116,8 +116,8 @@ public class InfoUtil {
 
         MallBo bo10 = new MallBo();
         bo10.img = "10";
-        bo10.name = "康恩贝肠炎宁片";
-        bo10.subtitle = "拉肚子用肠炎宁, 一身轻松";
+        bo10.name = "拜耳杀蟑胶饵";
+        bo10.subtitle = "德国拜耳蚂蚁药杀虫剂家用灭蚂蚁全窝端一窝端进口杀蚁胶饵12g 拜灭易";
         bo10.price = "25.2";
         bo10.order = 0;
         bo10.username = username;

@@ -14,6 +14,7 @@
         android:layout_width="@dimen/dp100"
         android:layout_height="@dimen/dp100"
        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -33,15 +34,28 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/dp10"
-        android:layout_marginTop="@dimen/dp08"
-        android:ellipsize="end"
-        android:lines="3"
+        android:layout_marginTop="@dimen/dp06"
         android:text="发货状态: 已发货"
         android:textColor="@color/c_666666"
         android:textSize="@dimen/sp14"
         app:layout_constraintEnd_toStartOf="@+id/tvImg"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvName" />
+
+    <TextView
+        android:id="@+id/tvNum"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dp10"
+        android:layout_marginTop="@dimen/dp06"
+        android:ellipsize="end"
+        android:lines="3"
+        android:text="数量: 1"
+        android:textColor="@color/c_666666"
+        android:textSize="@dimen/sp14"
+        app:layout_constraintEnd_toStartOf="@+id/tvImg"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvStatus" />
 
     <TextView
         android:id="@+id/tvFinalPrice"

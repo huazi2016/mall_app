@@ -17,6 +17,7 @@
         android:id="@+id/rcHomeList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        tools:listitem="@layout/item_order_list"
         tools:itemCount="3" />
 
     <include
