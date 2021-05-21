@@ -14,6 +14,7 @@ import android.util.SparseArray;
 import android.view.View;
 import android.widget.Toast;
 
+import com.blankj.utilcode.util.ToastUtils;
 import com.google.android.material.bottomnavigation.BottomNavigationMenuView;
 import com.mall.demo.base.utils.Constant;
 import com.mall.demo.custom.loading.LoadingView;
@@ -38,29 +39,24 @@ import q.rorbin.badgeview.QBadgeView;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final int INDEX_HOMEPAGE = 0;
-    private static final int INDEX_PROJECT = 1;
-    private static final int INDEX_SQUARE = 2;
-
-    private SparseArray<Fragment> mFragmentSparseArray = new SparseArray<>();
-
-    private Fragment mCurrentFragment;
-
-    private Fragment mLastFragment;
-
-    private int mLastIndex = -1;
-
-    private long mExitTime = 0;
-
-    private Context mContext;
-
     Unbinder mBinder;
-
     @BindView(R.id.navigation_bottom)
     BottomNavigationView mBottomNavigationView;
 
     @BindView(R.id.loading_view)
     LoadingView mLoadingView;
+
+    private boolean isLoad = false;
+    private static final int INDEX_HOMEPAGE = 0;
+    private static final int INDEX_PROJECT = 1;
+    private static final int INDEX_SQUARE = 2;
+    private SparseArray<Fragment> mFragmentSparseArray = new SparseArray<>();
+    private Fragment mCurrentFragment;
+    private Fragment mLastFragment;
+    private int mLastIndex = -1;
+    private long mExitTime = 0;
+    private Context mContext;
+    private boolean isCurFragment = false;
 
     public static void launchActivity(Activity activity) {
         Intent intent = new Intent(activity, MainActivity.class);
@@ -97,8 +93,6 @@ public class MainActivity extends AppCompatActivity {
         }
         mBottomNavigationView.setItemIconTintList(Utils.getColorStateList(mContext));
         mBottomNavigationView.setItemTextColor(Utils.getColorStateList(mContext));
-
-
     }
 
     @Override
@@ -116,6 +110,11 @@ public class MainActivity extends AppCompatActivity {
                             return true;
                         case R.id.menu_project:
                             switchFragment(INDEX_PROJECT);
+                            if (isLoad) {
+                                OrderFragment fragment = (OrderFragment) getFragment(INDEX_PROJECT);
+                                fragment.refreshInfo();
+                            }
+                            isLoad = true;
                             return true;
                         case R.id.menu_square:
                             switchFragment(INDEX_SQUARE);
@@ -232,6 +231,10 @@ public class MainActivity extends AppCompatActivity {
             } else if (event.type == EventBo.TYPE_STOP_ANIMATION) {
                 mLoadingView.setVisibility(View.GONE);
             }
+        } else if (event.target == 1001){
+            ToastUtils.showShort("切换");
+            mBottomNavigationView.setSelectedItemId(R.id.menu_square);
+            switchFragment(INDEX_SQUARE);
         }
     }
 }

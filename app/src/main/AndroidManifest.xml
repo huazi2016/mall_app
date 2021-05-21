@@ -21,20 +21,15 @@
             android:name="com.mall.demo.ui.activity.LoginActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.mall.demo.ui.activity.SplashActivity"
+            android:theme="@style/App.Theme.Launch">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <activity
-            android:name="com.mall.demo.ui.activity.SplashActivity"
-            android:theme="@style/App.Theme.Launch">
-            <!--<intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>-->
         </activity>
         <activity
             android:name="com.mall.demo.ui.activity.MainActivity"

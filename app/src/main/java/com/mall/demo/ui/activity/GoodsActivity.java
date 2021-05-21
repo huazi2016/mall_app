@@ -16,16 +16,27 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
 
+import com.blankj.utilcode.util.CollectionUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.lxj.xpopup.XPopup;
+import com.lxj.xpopup.interfaces.OnCancelListener;
+import com.lxj.xpopup.interfaces.OnConfirmListener;
 import com.lxj.xpopup.interfaces.OnSelectListener;
 import com.mall.demo.R;
 import com.mall.demo.base.activity.BaseActivity;
+import com.mall.demo.base.application.MyApp;
 import com.mall.demo.base.utils.Utils;
+import com.mall.demo.bean.EventBo;
 import com.mall.demo.bean.MallBo;
 import com.mall.demo.custom.CustomEditText;
 import com.mall.demo.custom.loading.LoadingView;
+import com.mall.demo.dao.MallDao;
 import com.mall.demo.utils.InfoUtil;
+import com.tencent.mmkv.MMKV;
+
+import org.greenrobot.eventbus.EventBus;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -59,6 +70,7 @@ public class GoodsActivity extends BaseActivity {
     LoadingView mLoading;
 
     private Context mContext;
+    private MallBo infoBo = null;
 
     public static void launchActivity(Activity activity, MallBo itemBo) {
         Intent intent = new Intent(activity, GoodsActivity.class);
@@ -77,7 +89,7 @@ public class GoodsActivity extends BaseActivity {
         mContext = getApplicationContext();
         initToolbar();
         if (getIntent() != null) {
-            MallBo infoBo = (MallBo) getIntent().getSerializableExtra("mall_info");
+            infoBo = (MallBo) getIntent().getSerializableExtra("mall_info");
             if (infoBo != null) {
                 InfoUtil.setImg(infoBo.img, tvGoodImg);
                 tvGoodsName.setText(infoBo.name);
@@ -116,25 +128,48 @@ public class GoodsActivity extends BaseActivity {
 
     @OnClick(R.id.tvBuyBtn)
     public void buy() {
-        ToastUtils.showShort("去购买");
-    }
-
-    private void showSelectPop() {
-       new XPopup.Builder(activity)
-                .isDarkTheme(false)
-                .isDestroyOnDismiss(true)
-                .asCenterList("请选择需要注册的角色", new String[]{"学生", "老师", "管理员", "关闭弹窗"},
-                        new OnSelectListener() {
-                            @Override
-                            public void onSelect(int position, String text) {
-                                if (position != 3) {
-                                    //发起注册
-                                    //startAnim();
-                                    //mPresenter.register(mUsername.getText().toString(), mPassword.getText().toString());
-                                    MainActivity.launchActivity(activity);
+        new XPopup.Builder(activity).asConfirm("", "确认支付吗?", "取消", "支付",
+                new OnConfirmListener() {
+                    @Override
+                    public void onConfirm() {
+                        if (infoBo != null) {
+                            infoBo.order = 1;
+                            infoBo.username = MMKV.defaultMMKV().decodeString("user_name");
+                            new Thread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    MallDao mallDao = MyApp.room.mallDao();
+                                    mallDao.insertAll(infoBo);
+                                    //List<MallBo> mallList = mallDao.getAllInfo();
+                                    //if (CollectionUtils.isNotEmpty(mallList)) {
+                                    //    for (MallBo mallBo : mallList) {
+                                    //        if (mallBo.name.equalsIgnoreCase(infoBo.name)) {
+                                    //            //mallDao.delete(mallBo);
+                                    //            mallDao.insertAll(infoBo);
+                                    //        }
+                                    //    }
+                                    //}
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            ToastUtils.showShort("购买完成");
+                                            EventBo bo = new EventBo();
+                                            bo.target = 1001;
+                                            EventBus.getDefault().post(bo);
+                                            finish();
+                                            //MainActivity.launchActivity(activity);
+                                        }
+                                    });
                                 }
-                            }
-                        }).show();
+                            }).start();
+                        }
+                    }
+                }, new OnCancelListener() {
+                    @Override
+                    public void onCancel() {
+
+                    }
+                }, false).show();
     }
 
     private void startAnim() {

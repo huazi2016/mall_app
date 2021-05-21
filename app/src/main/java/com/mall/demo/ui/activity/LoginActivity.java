@@ -26,6 +26,7 @@ import com.mall.demo.bean.UserBo;
 import com.mall.demo.custom.CustomEditText;
 import com.mall.demo.custom.loading.LoadingView;
 import com.mall.demo.dao.UserDao;
+import com.tencent.mmkv.MMKV;
 
 import java.util.List;
 
@@ -145,6 +146,9 @@ public class LoginActivity extends BaseActivity {
                     public void run() {
                         if (is2Name && is2Pwd) {
                             MainActivity.launchActivity(activity);
+                            MMKV.defaultMMKV().encode("login_flag", 1);
+                            MMKV.defaultMMKV().encode("user_name", userName);
+                            finish();
                         } else if (!is2Name) {
                             ToastUtils.showShort("账号不存在");
                         } else {

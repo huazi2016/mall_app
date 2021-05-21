@@ -4,6 +4,8 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.Serializable;
 
 /**
@@ -12,7 +14,9 @@ import java.io.Serializable;
  */
 @Entity(tableName = "mall")
 public class MallBo implements Serializable {
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
+    @NotNull
+    @ColumnInfo(name = "mid")
     public int mid;
     @ColumnInfo(name = "username")
     public String username;

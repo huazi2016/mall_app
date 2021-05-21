@@ -29,6 +29,7 @@ import com.mall.demo.net.MainContract;
 import com.mall.demo.net.MainPresenter;
 import com.mall.demo.ui.activity.GoodsActivity;
 import com.mall.demo.utils.InfoUtil;
+import com.tencent.mmkv.MMKV;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -70,7 +71,6 @@ public class HomeFragment extends BaseFragment implements MainContract.View {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        EventBus.getDefault().register(this);
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
@@ -99,7 +99,6 @@ public class HomeFragment extends BaseFragment implements MainContract.View {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        EventBus.getDefault().unregister(this);
     }
 
     @Override
@@ -108,7 +107,8 @@ public class HomeFragment extends BaseFragment implements MainContract.View {
         ivCommonBack.setVisibility(View.GONE);
         tvCommonTitle.setText("商品");
 
-        dataList = InfoUtil.getGoodsList("yyy");
+        String userName = MMKV.defaultMMKV().decodeString("user_name");
+        dataList = InfoUtil.getGoodsList(userName);
 
         rcHomeList.setLayoutManager(new LinearLayoutManager(getContext()));
         homeAdapter = new HomeListAdapter(R.layout.item_home_list, dataList);
@@ -168,29 +168,5 @@ public class HomeFragment extends BaseFragment implements MainContract.View {
         e.target = EventBo.TARGET_MAIN;
         e.type = EventBo.TYPE_STOP_ANIMATION;
         EventBus.getDefault().post(e);
-    }
-
-    @OnClick(R.id.layout_error)
-    public void onReTry() {
-        //setNetWorkError(true);
-        //mPresenter.loadBanner();
-        //mPresenter.loadArticle(0);
-    }
-
-    //private void setNetWorkError(boolean isSuccess) {
-    //    if (isSuccess) {
-    //        mNormalView.setVisibility(View.VISIBLE);
-    //        mLayoutError.setVisibility(View.GONE);
-    //    } else {
-    //        mNormalView.setVisibility(View.GONE);
-    //        mLayoutError.setVisibility(View.VISIBLE);
-    //    }
-    //}
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onEvent(EventBo event) {
-        if (event.target == EventBo.TARGET_HOME) {
-
-        }
     }
 }

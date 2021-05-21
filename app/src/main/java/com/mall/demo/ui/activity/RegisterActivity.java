@@ -122,7 +122,7 @@ public class RegisterActivity extends BaseActivity {
             public void run() {
                 UserDao userDao = MyApp.room.userDao();
                 UserBo userBo = new UserBo();
-                userBo.uid = 1;
+                //userBo.uid = 1;
                 userBo.username = userName;
                 userBo.pwd = passWord;
                 userDao.insertAll(userBo);
@@ -136,24 +136,6 @@ public class RegisterActivity extends BaseActivity {
                 });
             }
         }).start();
-    }
-
-    private void showSelectPop() {
-       new XPopup.Builder(activity)
-                .isDarkTheme(false)
-                .isDestroyOnDismiss(true)
-                .asCenterList("请选择需要注册的角色", new String[]{"学生", "老师", "管理员", "关闭弹窗"},
-                        new OnSelectListener() {
-                            @Override
-                            public void onSelect(int position, String text) {
-                                if (position != 3) {
-                                    //发起注册
-                                    //startAnim();
-                                    //mPresenter.register(mUsername.getText().toString(), mPassword.getText().toString());
-                                    MainActivity.launchActivity(activity);
-                                }
-                            }
-                        }).show();
     }
 
     private void startAnim() {

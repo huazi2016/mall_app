@@ -18,15 +18,20 @@ import androidx.core.graphics.ColorUtils;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.blankj.utilcode.util.CollectionUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.mall.demo.R;
+import com.mall.demo.base.application.MyApp;
 import com.mall.demo.base.fragment.BaseFragment;
 import com.mall.demo.bean.EventBo;
+import com.mall.demo.bean.MallBo;
+import com.mall.demo.dao.MallDao;
 import com.mall.demo.net.DataManager;
 import com.mall.demo.net.MainContract;
 import com.mall.demo.net.MainPresenter;
-import com.mall.demo.ui.activity.GoodsActivity;
+import com.mall.demo.utils.InfoUtil;
+import com.tencent.mmkv.MMKV;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -52,8 +57,8 @@ public class OrderFragment extends BaseFragment implements MainContract.View {
     ViewGroup mLayoutError;
 
     private MainPresenter loginPresenter;
-    private HomeListAdapter homeAdapter;
-    private final List<String> dataList = new ArrayList();
+    private OrderListAdapter orderAdapter;
+    private final List<MallBo> dataList = new ArrayList();
 
     public static OrderFragment getInstance() {
         OrderFragment fragment = new OrderFragment();
@@ -68,7 +73,6 @@ public class OrderFragment extends BaseFragment implements MainContract.View {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        EventBus.getDefault().register(this);
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
@@ -97,7 +101,42 @@ public class OrderFragment extends BaseFragment implements MainContract.View {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        EventBus.getDefault().unregister(this);
+    }
+
+    public void refreshInfo() {
+        String userName = MMKV.defaultMMKV().decodeString("user_name");
+        dataList.clear();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                MallDao mallDao = MyApp.room.mallDao();
+                List<MallBo> mallList = mallDao.getAllInfo();
+                if (CollectionUtils.isNotEmpty(mallList)) {
+                    for (MallBo mallBo : mallList) {
+                        if (mallBo.order == 1 && userName.equalsIgnoreCase(mallBo.username)) {
+                            dataList.add(mallBo);
+                        }
+                    }
+                }
+                activity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (CollectionUtils.isNotEmpty(dataList)) {
+                            rcHomeList.setVisibility(View.VISIBLE);
+                            mLayoutError.setVisibility(View.GONE);
+                            rcHomeList.setLayoutManager(new LinearLayoutManager(getContext()));
+                            orderAdapter = new OrderListAdapter(R.layout.item_order_list, dataList);
+                            View footView = getLayoutInflater().inflate(R.layout.common_footview, null);
+                            orderAdapter.addFooterView(footView);
+                            rcHomeList.setAdapter(orderAdapter);
+                        } else {
+                            rcHomeList.setVisibility(View.GONE);
+                            mLayoutError.setVisibility(View.VISIBLE);
+                        }
+                    }
+                });
+            }
+        }).start();
     }
 
     @Override
@@ -105,36 +144,24 @@ public class OrderFragment extends BaseFragment implements MainContract.View {
         initStatusBar();
         ivCommonBack.setVisibility(View.GONE);
         tvCommonTitle.setText("订单");
-
-        for (int i = 0; i < 10; i++) {
-            dataList.add("订单" + i);
-        }
-
-        rcHomeList.setLayoutManager(new LinearLayoutManager(getContext()));
-        homeAdapter = new HomeListAdapter(R.layout.item_order_list, dataList);
-        View footView = getLayoutInflater().inflate(R.layout.common_footview, null);
-        homeAdapter.addFooterView(footView);
-        rcHomeList.setAdapter(homeAdapter);
-
+        refreshInfo();
     }
 
-    private class HomeListAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
+    private class OrderListAdapter extends BaseQuickAdapter<MallBo, BaseViewHolder> {
 
-        public HomeListAdapter(int layoutResId, @Nullable List<String> data) {
+        public OrderListAdapter(int layoutResId, @Nullable List<MallBo> data) {
             super(layoutResId, data);
         }
 
         @Override
-        protected void convert(@NotNull BaseViewHolder holder, String name) {
+        protected void convert(@NotNull BaseViewHolder holder, MallBo itemBo) {
             ImageView tvImg = holder.getView(R.id.tvImg);
-            tvImg.setImageResource(R.drawable.img01);
-            holder.setText(R.id.tvName, name);
-            //holder.setText(R.id.tvHomeTime, searchBo.time);
-            //holder.setText(R.id.tvHomeTitle, searchBo.title);
-            //holder.setText(R.id.tvHomeContent, searchBo.content);
-            //holder.setText(R.id.tvHomeCategory, "所属分类：" + searchBo.category);
+            InfoUtil.setImg(itemBo.img, tvImg);
+            holder.setText(R.id.tvName, itemBo.name);
+            holder.setText(R.id.tvStatus, "发货状态: 已发货");
+            holder.setText(R.id.tvFinalPrice, "成交价: " + itemBo.price);
             holder.itemView.setOnClickListener(v -> {
-                //GoodsActivity.launchActivity(activity, holder.getLayoutPosition() + "");
+                //跳转
             });
         }
     }
@@ -170,29 +197,5 @@ public class OrderFragment extends BaseFragment implements MainContract.View {
         e.target = EventBo.TARGET_MAIN;
         e.type = EventBo.TYPE_STOP_ANIMATION;
         EventBus.getDefault().post(e);
-    }
-
-    @OnClick(R.id.layout_error)
-    public void onReTry() {
-        //setNetWorkError(true);
-        //mPresenter.loadBanner();
-        //mPresenter.loadArticle(0);
-    }
-
-    //private void setNetWorkError(boolean isSuccess) {
-    //    if (isSuccess) {
-    //        mNormalView.setVisibility(View.VISIBLE);
-    //        mLayoutError.setVisibility(View.GONE);
-    //    } else {
-    //        mNormalView.setVisibility(View.GONE);
-    //        mLayoutError.setVisibility(View.VISIBLE);
-    //    }
-    //}
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onEvent(EventBo event) {
-        if (event.target == EventBo.TARGET_HOME) {
-
-        }
     }
 }

@@ -14,6 +14,7 @@ import com.lxj.xpopup.interfaces.OnConfirmListener;
 import com.mall.demo.R;
 import com.mall.demo.base.fragment.BaseFragment;
 import com.mall.demo.ui.activity.LoginActivity;
+import com.tencent.mmkv.MMKV;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -53,6 +54,7 @@ public class MineFragment extends BaseFragment {
                             @Override
                             public void onConfirm() {
                                 LoginActivity.launchActivity(activity);
+                                MMKV.defaultMMKV().encode("login_flag", 0);
                                 activity.finish();
                             }
                         }, new OnCancelListener() {

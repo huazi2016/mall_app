@@ -13,6 +13,7 @@ import com.airbnb.lottie.LottieAnimationView;
 import com.mall.demo.R;
 import com.mall.demo.base.utils.Utils;
 import com.mall.demo.bean.EventBo;
+import com.tencent.mmkv.MMKV;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -64,7 +65,13 @@ public class SplashActivity extends AppCompatActivity {
 
             @Override
             public void onAnimationEnd(Animator animator) {
-                startActivity(new Intent(SplashActivity.this, LoginActivity.class));
+                int login = MMKV.defaultMMKV().decodeInt("login_flag");
+                if (login == 1) {
+                    MainActivity.launchActivity(SplashActivity.this);
+                } else {
+                    LoginActivity.launchActivity(SplashActivity.this);
+                }
+                finish();
                 overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
             }
 
