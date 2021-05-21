@@ -1,0 +1,29 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/c_F4F4F4"
+    android:orientation="vertical">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp26"
+        android:background="@color/colorPrimary" />
+
+    <include layout="@layout/common_title_layout" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rcHomeList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:itemCount="3" />
+
+    <include
+        android:id="@+id/layout_error"
+        layout="@layout/network_error"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
+
+</LinearLayout>

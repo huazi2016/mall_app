@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="@dimen/dp15"
+    android:layout_marginTop="@dimen/dp10"
+    android:layout_marginRight="@dimen/dp15"
+    android:background="@color/c_white"
+    android:padding="@dimen/dp10">
+
+    <ImageView
+        android:id="@+id/tvImg"
+        android:layout_width="@dimen/dp100"
+        android:layout_height="@dimen/dp100"
+       app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dp10"
+        android:text="商品标题"
+        android:textColor="@color/c_333333"
+        android:textSize="@dimen/sp16"
+        app:layout_constraintEnd_toStartOf="@+id/tvImg"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tvImg" />
+
+    <TextView
+        android:id="@+id/tvStatus"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dp10"
+        android:layout_marginTop="@dimen/dp08"
+        android:ellipsize="end"
+        android:lines="3"
+        android:text="发货状态: 已发货"
+        android:textColor="@color/c_666666"
+        android:textSize="@dimen/sp14"
+        app:layout_constraintEnd_toStartOf="@+id/tvImg"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvName" />
+
+    <TextView
+        android:id="@+id/tvFinalPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dp10"
+        android:text="成交价: "
+        android:textColor="@color/primary_red"
+        android:textSize="@dimen/sp15"
+        app:layout_constraintBottom_toBottomOf="@+id/tvImg"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
