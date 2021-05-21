@@ -16,77 +16,93 @@
         app:layout_constraintTop_toTopOf="parent"
         app:titleTextColor="@color/always_white_text" />
 
-    <ImageView
-        android:id="@+id/tvGoodImg"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:scaleType="fitXY"
+        app:layout_constraintTop_toBottomOf="@id/register_toolbar"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/register_toolbar" />
+        android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/tvGoodsName"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/dp15"
-        android:layout_marginRight="@dimen/dp10"
-        android:layout_marginTop="@dimen/dp15"
-        android:text="我是一个商品标题我是一个商品标题我是一个商品标题"
-        android:textColor="@color/c_666666"
-        android:textSize="@dimen/sp16"
-        android:lines="2"
-        android:ellipsize="end"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/tvGoodsPrice"
-        app:layout_constraintTop_toBottomOf="@+id/tvGoodImg" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/tvGoodsPrice"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/dp15"
-        android:layout_marginTop="@dimen/dp20"
-        android:text="¥1000"
-        android:textColor="@color/primary_red"
-        android:textSize="@dimen/sp20"
-        android:layout_marginRight="@dimen/dp15"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvGoodImg" />
+            <ImageView
+                android:id="@+id/tvGoodImg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scaleType="fitXY"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
 
-    <TextView
-        android:id="@+id/tvGoodsTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/dp15"
-        android:layout_marginTop="@dimen/dp30"
-        android:text="商品介绍:"
-        android:textColor="@color/c_666666"
-        android:textSize="@dimen/sp16"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvGoodsName" />
+            <TextView
+                android:id="@+id/tvGoodsName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dp15"
+                android:layout_marginTop="@dimen/dp15"
+                android:layout_marginRight="@dimen/dp10"
+                android:ellipsize="end"
+                android:text="我是一个商品标题我是一个商品标题我是一个商品标题"
+                android:textColor="@color/c_333333"
+                android:textSize="@dimen/sp16"
+                app:layout_constraintEnd_toStartOf="@+id/tvGoodsPrice"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvGoodImg" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/dp15"
-        android:layout_marginTop="@dimen/dp13"
-        android:text="商品的一堆介绍"
-        android:textColor="@color/c_333333"
-        android:textSize="@dimen/sp16"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvGoodsTitle" />
+            <TextView
+                android:id="@+id/tvGoodsPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dp15"
+                android:layout_marginTop="@dimen/dp10"
+                android:layout_marginRight="@dimen/dp15"
+                android:text="¥1000"
+                android:textColor="@color/primary_red"
+                android:textSize="@dimen/sp20"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvGoodImg" />
+
+            <TextView
+                android:id="@+id/tvGoodsTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dp15"
+                android:layout_marginTop="@dimen/dp30"
+                android:text="商品介绍:"
+                android:textColor="@color/c_666666"
+                android:textSize="@dimen/sp16"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvGoodsName" />
+
+            <TextView
+                android:id="@+id/tvGoodsContent"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dp15"
+                android:layout_marginTop="@dimen/dp13"
+                android:layout_marginRight="@dimen/dp08"
+                android:text="商品的一堆介绍"
+                android:paddingBottom="@dimen/dp70"
+                android:textColor="@color/c_333333"
+                android:textSize="@dimen/sp16"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvGoodsTitle" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 
     <TextView
         android:id="@+id/tvBuyBtn"
         android:layout_width="match_parent"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_height="@dimen/dp50"
         android:background="@color/primary_red"
+        android:gravity="center"
         android:text="抢购/支付"
         android:textColor="@color/c_white"
-        android:gravity="center"
         android:textSize="@dimen/sp18"
-        android:layout_height="@dimen/dp50"/>
+        app:layout_constraintBottom_toBottomOf="parent" />
 
     <com.mall.demo.custom.loading.LoadingView
         android:id="@+id/loading_view"

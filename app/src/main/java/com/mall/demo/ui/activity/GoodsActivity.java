@@ -11,17 +11,21 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
 
+import com.blankj.utilcode.util.ToastUtils;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.interfaces.OnSelectListener;
 import com.mall.demo.R;
 import com.mall.demo.base.activity.BaseActivity;
 import com.mall.demo.base.utils.Utils;
+import com.mall.demo.bean.MallBo;
 import com.mall.demo.custom.CustomEditText;
 import com.mall.demo.custom.loading.LoadingView;
+import com.mall.demo.utils.InfoUtil;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -42,14 +46,23 @@ public class GoodsActivity extends BaseActivity {
     @BindView(R.id.tvGoodImg)
     ImageView tvGoodImg;
 
+    @BindView(R.id.tvGoodsName)
+    TextView tvGoodsName;
+
+    @BindView(R.id.tvGoodsPrice)
+    TextView tvGoodsPrice;
+
+    @BindView(R.id.tvGoodsContent)
+    TextView tvGoodsContent;
+
     @BindView(R.id.loading_view)
     LoadingView mLoading;
 
     private Context mContext;
 
-    public static void launchActivity(Activity activity, String id) {
+    public static void launchActivity(Activity activity, MallBo itemBo) {
         Intent intent = new Intent(activity, GoodsActivity.class);
-        //intent.putExtra(COMMENT_ID, id);
+        intent.putExtra("mall_info", itemBo);
         activity.startActivity(intent);
     }
 
@@ -63,8 +76,15 @@ public class GoodsActivity extends BaseActivity {
     protected void init(Bundle savedInstanceState) {
         mContext = getApplicationContext();
         initToolbar();
-
-        tvGoodImg.setImageResource(R.drawable.img05);
+        if (getIntent() != null) {
+            MallBo infoBo = (MallBo) getIntent().getSerializableExtra("mall_info");
+            if (infoBo != null) {
+                InfoUtil.setImg(infoBo.img, tvGoodImg);
+                tvGoodsName.setText(infoBo.name);
+                tvGoodsPrice.setText("¥" + infoBo.price);
+                tvGoodsContent.setText(infoBo.content);
+            }
+        }
     }
 
     @Override
@@ -94,10 +114,10 @@ public class GoodsActivity extends BaseActivity {
     }
 
 
-//    @OnClick(R.id.register)
-//    public void register() {
-//
-//    }
+    @OnClick(R.id.tvBuyBtn)
+    public void buy() {
+        ToastUtils.showShort("去购买");
+    }
 
     private void showSelectPop() {
        new XPopup.Builder(activity)

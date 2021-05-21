@@ -4,12 +4,14 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.io.Serializable;
+
 /**
  * time   : 2021/5/20
  * desc   :
  */
 @Entity(tableName = "mall")
-public class MallBo {
+public class MallBo implements Serializable {
     @PrimaryKey
     public int mid;
     @ColumnInfo(name = "username")
@@ -23,7 +25,7 @@ public class MallBo {
     @ColumnInfo(name = "price")
     public String price;
     @ColumnInfo(name = "order")
-    public String order;
+    public int order;
     @ColumnInfo(name = "content")
     public String content;
 }

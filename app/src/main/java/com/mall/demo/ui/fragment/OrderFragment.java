@@ -134,7 +134,7 @@ public class OrderFragment extends BaseFragment implements MainContract.View {
             //holder.setText(R.id.tvHomeContent, searchBo.content);
             //holder.setText(R.id.tvHomeCategory, "所属分类：" + searchBo.category);
             holder.itemView.setOnClickListener(v -> {
-                GoodsActivity.launchActivity(activity, holder.getLayoutPosition() + "");
+                //GoodsActivity.launchActivity(activity, holder.getLayoutPosition() + "");
             });
         }
     }

@@ -23,10 +23,12 @@ import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.mall.demo.R;
 import com.mall.demo.base.fragment.BaseFragment;
 import com.mall.demo.bean.EventBo;
+import com.mall.demo.bean.MallBo;
 import com.mall.demo.net.DataManager;
 import com.mall.demo.net.MainContract;
 import com.mall.demo.net.MainPresenter;
 import com.mall.demo.ui.activity.GoodsActivity;
+import com.mall.demo.utils.InfoUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -53,7 +55,7 @@ public class HomeFragment extends BaseFragment implements MainContract.View {
 
     private MainPresenter loginPresenter;
     private HomeListAdapter homeAdapter;
-    private final List<String> dataList = new ArrayList();
+    private List<MallBo> dataList = new ArrayList();
 
     public static HomeFragment getInstance() {
         HomeFragment fragment = new HomeFragment();
@@ -106,9 +108,7 @@ public class HomeFragment extends BaseFragment implements MainContract.View {
         ivCommonBack.setVisibility(View.GONE);
         tvCommonTitle.setText("商品");
 
-        for (int i = 0; i < 10; i++) {
-            dataList.add("商品" + i);
-        }
+        dataList = InfoUtil.getGoodsList("yyy");
 
         rcHomeList.setLayoutManager(new LinearLayoutManager(getContext()));
         homeAdapter = new HomeListAdapter(R.layout.item_home_list, dataList);
@@ -118,23 +118,21 @@ public class HomeFragment extends BaseFragment implements MainContract.View {
 
     }
 
-    private class HomeListAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
+    private class HomeListAdapter extends BaseQuickAdapter<MallBo, BaseViewHolder> {
 
-        public HomeListAdapter(int layoutResId, @Nullable List<String> data) {
+        public HomeListAdapter(int layoutResId, @Nullable List<MallBo> data) {
             super(layoutResId, data);
         }
 
         @Override
-        protected void convert(@NotNull BaseViewHolder holder, String name) {
-            ImageView tvImg = holder.getView(R.id.tvImg);
-            tvImg.setImageResource(R.drawable.img01);
-            holder.setText(R.id.tvName, name);
-            //holder.setText(R.id.tvHomeTime, searchBo.time);
-            //holder.setText(R.id.tvHomeTitle, searchBo.title);
-            //holder.setText(R.id.tvHomeContent, searchBo.content);
-            //holder.setText(R.id.tvHomeCategory, "所属分类：" + searchBo.category);
+        protected void convert(@NotNull BaseViewHolder holder, MallBo itemBo) {
+            ImageView ivImg = holder.getView(R.id.tvImg);
+            InfoUtil.setImg(itemBo.img, ivImg);
+            holder.setText(R.id.tvName, itemBo.name);
+            holder.setText(R.id.tvSubtitle, itemBo.subtitle);
+            holder.setText(R.id.tvPrice, "价格：" + itemBo.price);
             holder.itemView.setOnClickListener(v -> {
-                GoodsActivity.launchActivity(activity, holder.getLayoutPosition() + "");
+                GoodsActivity.launchActivity(activity, itemBo);
             });
         }
     }
