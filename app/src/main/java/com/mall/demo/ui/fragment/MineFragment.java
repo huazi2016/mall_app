@@ -13,7 +13,9 @@ import com.lxj.xpopup.interfaces.OnCancelListener;
 import com.lxj.xpopup.interfaces.OnConfirmListener;
 import com.mall.demo.R;
 import com.mall.demo.base.fragment.BaseFragment;
+import com.mall.demo.ui.activity.HealthActivity;
 import com.mall.demo.ui.activity.LoginActivity;
+import com.mall.demo.ui.activity.PlanActivity;
 import com.tencent.mmkv.MMKV;
 
 import butterknife.BindView;
@@ -45,7 +47,7 @@ public class MineFragment extends BaseFragment {
         //tvMineName.setText(MmkvUtil.getUserName());
 
     }
-    @OnClick({R.id.clMineItem02})
+    @OnClick({R.id.clMineItem02, R.id.clMineItem03, R.id.clMineItem04})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.clMineItem02: {
@@ -63,6 +65,14 @@ public class MineFragment extends BaseFragment {
 
                             }
                         }, false).show();
+                break;
+            }
+            case R.id.clMineItem03: {
+                HealthActivity.launchActivity(activity);
+                break;
+            }
+            case R.id.clMineItem04: {
+                PlanActivity.launchActivity(activity);
                 break;
             }
             default: {

@@ -148,6 +148,130 @@
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/cdMineLayout03"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp15"
+            android:layout_marginTop="@dimen/dp15"
+            android:layout_marginRight="@dimen/dp15"
+            android:background="@color/white"
+            app:cardCornerRadius="@dimen/dp06"
+            app:cardElevation="0dp"
+            app:cardPreventCornerOverlap="false"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/clMineItem03"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/dp08"
+                android:paddingBottom="@dimen/dp08"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivMineIcon03"
+                    android:layout_width="@dimen/dp20"
+                    android:layout_height="@dimen/dp20"
+                    android:layout_marginLeft="@dimen/dp15"
+                    android:layout_marginTop="@dimen/dp06"
+                    android:layout_marginBottom="@dimen/dp06"
+                    android:background="@drawable/setting_version"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvMineItemName03"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dp15"
+                    android:text="健康数据"
+                    android:textColor="@color/c_333333"
+                    android:textSize="@dimen/sp14"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/ivMineIcon03"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivMineArrow03"
+                    android:layout_width="@dimen/dp14"
+                    android:layout_height="@dimen/dp14"
+                    android:layout_marginRight="15dp"
+                    android:background="@drawable/right_arrow"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cdMineLayout04"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp15"
+            android:layout_marginTop="@dimen/dp15"
+            android:layout_marginRight="@dimen/dp15"
+            android:background="@color/white"
+            app:cardCornerRadius="@dimen/dp06"
+            app:cardElevation="0dp"
+            app:cardPreventCornerOverlap="false"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/clMineItem04"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/dp08"
+                android:paddingBottom="@dimen/dp08"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivMineIcon04"
+                    android:layout_width="@dimen/dp20"
+                    android:layout_height="@dimen/dp20"
+                    android:layout_marginLeft="@dimen/dp15"
+                    android:layout_marginTop="@dimen/dp06"
+                    android:layout_marginBottom="@dimen/dp06"
+                    android:background="@drawable/setting_phone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvMineItemName04"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dp15"
+                    android:text="运动计划"
+                    android:textColor="@color/c_333333"
+                    android:textSize="@dimen/sp14"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/ivMineIcon04"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivMineArrow04"
+                    android:layout_width="@dimen/dp14"
+                    android:layout_height="@dimen/dp14"
+                    android:layout_marginRight="15dp"
+                    android:background="@drawable/right_arrow"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
             android:id="@+id/cdMineLayout02"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
