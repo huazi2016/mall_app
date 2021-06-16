@@ -1,5 +1,6 @@
 
-# Java模板工程
+# mall_app
+药品商城项目
 
 ### 开源
 - [参考hegaojian大神项目中的图标](https://github.com/hegaojian/WanAndroid)
