@@ -9,22 +9,31 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
 
 import com.blankj.utilcode.util.CollectionUtils;
+import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.mall.demo.R;
 import com.mall.demo.base.activity.BaseActivity;
 import com.mall.demo.base.application.MyApp;
+import com.mall.demo.base.utils.LoginUtils;
 import com.mall.demo.base.utils.Utils;
+import com.mall.demo.bean.LoginBo;
 import com.mall.demo.bean.UserBo;
 import com.mall.demo.custom.CustomEditText;
 import com.mall.demo.custom.loading.LoadingView;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.interfaces.OnSelectListener;
 import com.mall.demo.dao.UserDao;
+import com.mall.demo.net.DataManager;
+import com.mall.demo.net.MainContract;
+import com.mall.demo.net.MainPresenter;
+import com.mall.demo.net.NetCallBack;
 
 import java.util.List;
 
@@ -59,7 +68,16 @@ public class RegisterActivity extends BaseActivity {
     @BindView(R.id.register)
     Button mRegisterButton;
 
+    @BindView(R.id.rgRoleGroup)
+    RadioGroup rgRoleGroup;
+    @BindView(R.id.rbRole01)
+    RadioButton rbRole01;
+    @BindView(R.id.rbRole02)
+    RadioButton rbRole02;
+
     private Context mContext;
+    private MainPresenter mPresenter;
+    private String role = "买家";
 
 
     @Override
@@ -73,11 +91,22 @@ public class RegisterActivity extends BaseActivity {
         initToolbar();
         mRegisterButton.getBackground().setColorFilter(
                 Utils.getColor(mContext), PorterDuff.Mode.SRC_ATOP);
+        rgRoleGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int viewId) {
+                if (viewId == R.id.rbRole01) {
+                    role = rbRole01.getText().toString().trim();
+                } else if  (viewId == R.id.rbRole02) {
+                    role = rbRole02.getText().toString().trim();
+                }
+            }
+        });
     }
 
     @Override
     protected void initPresenter() {
-
+        mPresenter = new MainPresenter(new DataManager());
+        //mPresenter.attachView(this);
     }
 
     private void initToolbar() {
@@ -117,25 +146,21 @@ public class RegisterActivity extends BaseActivity {
             return;
         }
         startAnim();
-        new Thread(new Runnable() {
+        mPresenter.postRegister(userName, passWord, role, new NetCallBack<LoginBo>() {
             @Override
-            public void run() {
-                UserDao userDao = MyApp.room.userDao();
-                UserBo userBo = new UserBo();
-                //userBo.uid = 1;
-                userBo.username = userName;
-                userBo.pwd = passWord;
-                userDao.insertAll(userBo);
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        stopAnim();
-                        ToastUtils.showShort("注册成功");
-                        finish();
-                    }
-                });
+            public void onLoadSuccess(LoginBo data) {
+                stopAnim();
+                ToastUtils.showShort("注册成功");
+                finish();
             }
-        }).start();
+
+            @Override
+            public void onLoadFailed(String errMsg) {
+                stopAnim();
+                ToastUtils.showShort(errMsg);
+                LogUtils.d("login111:==" + errMsg);
+            }
+        });
     }
 
     private void startAnim() {

@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 
@@ -13,6 +14,7 @@ import com.airbnb.lottie.LottieAnimationView;
 import com.mall.demo.R;
 import com.mall.demo.base.utils.Utils;
 import com.mall.demo.bean.EventBo;
+import com.mall.demo.utils.MyConstant;
 import com.tencent.mmkv.MMKV;
 
 import org.greenrobot.eventbus.EventBus;
@@ -65,8 +67,9 @@ public class SplashActivity extends AppCompatActivity {
 
             @Override
             public void onAnimationEnd(Animator animator) {
-                int login = MMKV.defaultMMKV().decodeInt("login_flag");
-                if (login == 1) {
+                //int login = MMKV.defaultMMKV().decodeInt("login_flag");
+                String account = MMKV.defaultMMKV().decodeString(MyConstant.ACCOUNT, "");
+                if (!TextUtils.isEmpty(account)) {
                     MainActivity.launchActivity(SplashActivity.this);
                 } else {
                     LoginActivity.launchActivity(SplashActivity.this);

@@ -22,10 +22,15 @@ import com.mall.demo.R;
 import com.mall.demo.base.activity.BaseActivity;
 import com.mall.demo.base.application.MyApp;
 import com.mall.demo.base.utils.Utils;
+import com.mall.demo.bean.LoginBo;
 import com.mall.demo.bean.UserBo;
 import com.mall.demo.custom.CustomEditText;
 import com.mall.demo.custom.loading.LoadingView;
 import com.mall.demo.dao.UserDao;
+import com.mall.demo.net.DataManager;
+import com.mall.demo.net.MainPresenter;
+import com.mall.demo.net.NetCallBack;
+import com.mall.demo.utils.MyConstant;
 import com.tencent.mmkv.MMKV;
 
 import java.util.List;
@@ -56,7 +61,7 @@ public class LoginActivity extends BaseActivity {
     private Context mContext;
 
     private String mRegisterName;
-
+    private MainPresenter mPresenter;
     private String mRegisterPassword;
 
     public static void launchActivity(Activity activity) {
@@ -87,7 +92,7 @@ public class LoginActivity extends BaseActivity {
 
     @Override
     protected void initPresenter() {
-
+        mPresenter = new MainPresenter(new DataManager());
     }
 
     private void initToolbar() {
@@ -120,45 +125,22 @@ public class LoginActivity extends BaseActivity {
         startAnim();
         String userName = mUsername.getText().toString();
         String passWord = mPassword.getText().toString();
-        new Thread(new Runnable() {
+        mPresenter.postLogin(userName, passWord, new NetCallBack<LoginBo>() {
             @Override
-            public void run() {
-                boolean isName = false;
-                boolean isPwd = false;
-                UserDao userDao = MyApp.room.userDao();
-                List<UserBo> userList = userDao.getAll();
-                if (CollectionUtils.isNotEmpty(userList)) {
-                    for (int i = 0; i < userList.size(); i++) {
-                        String user = userList.get(i).username;
-                        String pwd = userList.get(i).pwd;
-                        if (user.equalsIgnoreCase(userName)) {
-                            isName = true;
-                        }
-                        if (passWord.equalsIgnoreCase(pwd)) {
-                            isPwd = true;
-                        }
-                    }
-                }
-                final boolean is2Name = isName;
-                final boolean is2Pwd = isPwd;
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (is2Name && is2Pwd) {
-                            MainActivity.launchActivity(activity);
-                            MMKV.defaultMMKV().encode("login_flag", 1);
-                            MMKV.defaultMMKV().encode("user_name", userName);
-                            finish();
-                        } else if (!is2Name) {
-                            ToastUtils.showShort("账号不存在");
-                        } else {
-                            ToastUtils.showShort("密码错误");
-                        }
-                    }
-                });
+            public void onLoadSuccess(LoginBo data) {
+                stopAnim();
+                MMKV.defaultMMKV().encode(MyConstant.ACCOUNT, data.account);
+                MMKV.defaultMMKV().encode(MyConstant.HEADURL, data.headUrl);
+                MMKV.defaultMMKV().encode(MyConstant.USERNAME, data.username);
+                MainActivity.launchActivity(activity);
             }
-        }).start();
-        stopAnim();
+
+            @Override
+            public void onLoadFailed(String errMsg) {
+                stopAnim();
+                ToastUtils.showShort(errMsg);
+            }
+        });
     }
 
     @OnClick(R.id.go_register)

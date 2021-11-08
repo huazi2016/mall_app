@@ -5,17 +5,21 @@ import android.os.Build;
 import android.view.View;
 import android.view.WindowManager;
 
+import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.core.graphics.ColorUtils;
 
+import com.bumptech.glide.Glide;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.interfaces.OnCancelListener;
 import com.lxj.xpopup.interfaces.OnConfirmListener;
 import com.mall.demo.R;
 import com.mall.demo.base.fragment.BaseFragment;
+import com.mall.demo.base.utils.GlideImageLoader;
 import com.mall.demo.ui.activity.HealthActivity;
 import com.mall.demo.ui.activity.LoginActivity;
 import com.mall.demo.ui.activity.PlanActivity;
+import com.mall.demo.utils.MyConstant;
 import com.tencent.mmkv.MMKV;
 
 import butterknife.BindView;
@@ -26,6 +30,9 @@ public class MineFragment extends BaseFragment {
 
     @BindView(R.id.tvMineName)
     AppCompatTextView tvMineName;
+
+    @BindView(R.id.ivMineHead)
+    AppCompatImageView ivMineHead;
 
     public static MineFragment getInstance() {
         MineFragment fragment = new MineFragment();
@@ -44,8 +51,10 @@ public class MineFragment extends BaseFragment {
 
     @Override
     protected void init() {
-        //tvMineName.setText(MmkvUtil.getUserName());
-
+        String name = MMKV.defaultMMKV().decodeString(MyConstant.USERNAME);
+        String headurl = MMKV.defaultMMKV().decodeString(MyConstant.HEADURL);
+        tvMineName.setText(name);
+        Glide.with(activity).load(headurl).into(ivMineHead);
     }
     @OnClick({R.id.clMineItem02, R.id.clMineItem03, R.id.clMineItem04})
     public void onClick(View view) {

@@ -24,6 +24,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.mall.demo.base.utils.Utils;
 import com.mall.demo.bean.EventBo;
 import com.mall.demo.ui.fragment.HomeFragment;
+import com.mall.demo.ui.fragment.MessageFragment;
 import com.mall.demo.ui.fragment.MineFragment;
 import com.mall.demo.ui.fragment.OrderFragment;
 
@@ -49,7 +50,8 @@ public class MainActivity extends AppCompatActivity {
     private boolean isLoad = false;
     private static final int INDEX_HOMEPAGE = 0;
     private static final int INDEX_PROJECT = 1;
-    private static final int INDEX_SQUARE = 2;
+    private static final int INDEX_MESSAGE = 2;
+    private static final int INDEX_SQUARE = 3;
     private SparseArray<Fragment> mFragmentSparseArray = new SparseArray<>();
     private Fragment mCurrentFragment;
     private Fragment mLastFragment;
@@ -115,6 +117,14 @@ public class MainActivity extends AppCompatActivity {
                                 fragment.refreshInfo();
                             }
                             isLoad = true;
+                            return true;
+                        case R.id.menu_message:
+                            switchFragment(INDEX_MESSAGE);
+//                            if (isLoad) {
+//                                MessageFragment fragment = (MessageFragment) getFragment(INDEX_MESSAGE);
+//                                fragment.refreshInfo();
+//                            }
+//                            isLoad = true;
                             return true;
                         case R.id.menu_square:
                             switchFragment(INDEX_SQUARE);
@@ -195,6 +205,9 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case INDEX_PROJECT:
                     fragment = OrderFragment.getInstance();
+                    break;
+                case INDEX_MESSAGE:
+                    fragment = MessageFragment.getInstance();
                     break;
                 case INDEX_SQUARE:
                     fragment = MineFragment.getInstance();
