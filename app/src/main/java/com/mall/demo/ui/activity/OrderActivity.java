@@ -9,7 +9,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,34 +18,28 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.blankj.utilcode.util.CollectionUtils;
 import com.blankj.utilcode.util.ToastUtils;
+import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
-import com.lxj.xpopup.XPopup;
-import com.lxj.xpopup.interfaces.OnCancelListener;
-import com.lxj.xpopup.interfaces.OnConfirmListener;
 import com.mall.demo.R;
 import com.mall.demo.base.activity.BaseActivity;
-import com.mall.demo.base.application.MyApp;
 import com.mall.demo.base.utils.Utils;
-import com.mall.demo.bean.EventBo;
-import com.mall.demo.bean.MallBo;
+import com.mall.demo.bean.OrderBo;
 import com.mall.demo.custom.loading.LoadingView;
-import com.mall.demo.dao.MallDao;
-import com.mall.demo.utils.InfoUtil;
-import com.tencent.mmkv.MMKV;
+import com.mall.demo.net.DataManager;
+import com.mall.demo.net.MainPresenter;
+import com.mall.demo.net.NetCallBack;
 
-import org.greenrobot.eventbus.EventBus;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.OnClick;
 
 public class OrderActivity extends BaseActivity {
 
-    @BindView(R.id.rcOrderList)
+    @BindView(R.id.rcMsgList)
     RecyclerView rcOrderList;
 
     @BindView(R.id.register_toolbar)
@@ -59,8 +52,9 @@ public class OrderActivity extends BaseActivity {
     ViewGroup mLayoutError;
 
     private Context mContext;
-    private final List<MallBo> dataList = new ArrayList();
+    private final List<OrderBo> dataList = new ArrayList();
     private OrderListAdapter orderAdapter;
+    private MainPresenter mPresenter;
 
     public static void launchActivity(Activity activity) {
         Intent intent = new Intent(activity, OrderActivity.class);
@@ -77,12 +71,11 @@ public class OrderActivity extends BaseActivity {
     protected void init(Bundle savedInstanceState) {
         mContext = getApplicationContext();
         initToolbar();
-        setInfo();
     }
 
     @Override
     protected void initPresenter() {
-
+        mPresenter = new MainPresenter(new DataManager());
     }
 
     private void initToolbar() {
@@ -96,6 +89,38 @@ public class OrderActivity extends BaseActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowTitleEnabled(true);
         }
+        if (mPresenter == null) {
+            mPresenter = new MainPresenter(new DataManager());
+        }
+        startAnim();
+        mPresenter.postOrderList(new NetCallBack<List<OrderBo>>() {
+            @Override
+            public void onLoadSuccess(List<OrderBo> data) {
+                stopAnim();
+                dataList.clear();
+                dataList.addAll(data);
+                if (CollectionUtils.isNotEmpty(dataList)) {
+                    rcOrderList.setVisibility(View.VISIBLE);
+                    mLayoutError.setVisibility(View.GONE);
+                    rcOrderList.setLayoutManager(new LinearLayoutManager(activity));
+                    orderAdapter = new OrderListAdapter(R.layout.item_order_list, dataList);
+                    View footView = getLayoutInflater().inflate(R.layout.common_footview, null);
+                    orderAdapter.addFooterView(footView);
+                    rcOrderList.setAdapter(orderAdapter);
+                } else {
+                    rcOrderList.setVisibility(View.GONE);
+                    mLayoutError.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onLoadFailed(String errMsg) {
+                stopAnim();
+                ToastUtils.showShort("网络异常");
+                rcOrderList.setVisibility(View.GONE);
+                mLayoutError.setVisibility(View.VISIBLE);
+            }
+        });
     }
 
     @Override
@@ -106,57 +131,24 @@ public class OrderActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void setInfo() {
-        String userName = MMKV.defaultMMKV().decodeString("user_name");
-        dataList.clear();
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                MallDao mallDao = MyApp.room.mallDao();
-                List<MallBo> mallList = mallDao.getAllInfo();
-                if (CollectionUtils.isNotEmpty(mallList)) {
-                    for (MallBo mallBo : mallList) {
-                        if (mallBo.order == 1 && userName.equalsIgnoreCase(mallBo.username)) {
-                            dataList.add(mallBo);
-                        }
-                    }
-                }
-                activity.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (CollectionUtils.isNotEmpty(dataList)) {
-                            rcOrderList.setVisibility(View.VISIBLE);
-                            mLayoutError.setVisibility(View.GONE);
-                            rcOrderList.setLayoutManager(new LinearLayoutManager(activity));
-                            orderAdapter = new OrderListAdapter(R.layout.item_order_list, dataList);
-                            View footView = getLayoutInflater().inflate(R.layout.common_footview, null);
-                            orderAdapter.addFooterView(footView);
-                            rcOrderList.setAdapter(orderAdapter);
-                        } else {
-                            rcOrderList.setVisibility(View.GONE);
-                            mLayoutError.setVisibility(View.VISIBLE);
-                        }
-                    }
-                });
-            }
-        }).start();
-    }
+    private class OrderListAdapter extends BaseQuickAdapter<OrderBo, BaseViewHolder> {
 
-    private class OrderListAdapter extends BaseQuickAdapter<MallBo, BaseViewHolder> {
-
-        public OrderListAdapter(int layoutResId, @Nullable List<MallBo> data) {
+        public OrderListAdapter(int layoutResId, @Nullable List<OrderBo> data) {
             super(layoutResId, data);
         }
 
         @Override
-        protected void convert(@NotNull BaseViewHolder holder, MallBo itemBo) {
-            ImageView tvImg = holder.getView(R.id.tvImg);
-            InfoUtil.setImg(itemBo.img, tvImg);
-            holder.setText(R.id.tvName, itemBo.name);
-            holder.setText(R.id.tvStatus, "发货状态: 已发货");
+        protected void convert(@NotNull BaseViewHolder holder, OrderBo itemBo) {
+            ImageView ivImg = holder.getView(R.id.tvImg);
+            //InfoUtil.setImg(itemBo.img, ivImg);
+            Glide.with(activity).load(itemBo.img).into(ivImg);
+            holder.setText(R.id.tvName, itemBo.title);
+            holder.setText(R.id.tvStatus, itemBo.status);
             holder.setText(R.id.tvFinalPrice, "成交价: " + itemBo.price);
             holder.itemView.setOnClickListener(v -> {
                 //跳转
+                // TODO: 11/9/21 补充订单详情
+                //itemBo.orderId;
             });
         }
     }

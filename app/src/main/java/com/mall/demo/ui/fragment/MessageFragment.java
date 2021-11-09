@@ -8,29 +8,29 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.core.graphics.ColorUtils;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.blankj.utilcode.util.CollectionUtils;
+import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.mall.demo.R;
 import com.mall.demo.base.fragment.BaseFragment;
-import com.mall.demo.bean.ChatListBo;
+import com.mall.demo.bean.MsgListBo;
 import com.mall.demo.bean.EventBo;
 import com.mall.demo.bean.MallBo;
 import com.mall.demo.net.DataManager;
-import com.mall.demo.net.MainContract;
 import com.mall.demo.net.MainPresenter;
 import com.mall.demo.net.NetCallBack;
 import com.mall.demo.utils.InfoUtil;
-import com.mall.demo.utils.MyConstant;
-import com.tencent.mmkv.MMKV;
 
 import org.greenrobot.eventbus.EventBus;
 import org.jetbrains.annotations.NotNull;
@@ -47,14 +47,16 @@ public class MessageFragment extends BaseFragment {
     AppCompatImageView ivCommonBack;
     @BindView(R.id.tvCommonTitle)
     AppCompatTextView tvCommonTitle;
-    @BindView(R.id.rcOrderList)
-    RecyclerView rcOrderList;
+    @BindView(R.id.rcMsgList)
+    RecyclerView rcMsgList;
     @BindView(R.id.layout_error)
     ViewGroup mLayoutError;
+    @BindView(R.id.tvError)
+    TextView tvError;
 
-    private MainPresenter orderPresenter;
-    private OrderListAdapter orderAdapter;
-    private final List<MallBo> dataList = new ArrayList();
+    private MainPresenter mPresenter;
+    private MsgListAdapter msgAdapter;
+    private final List<MsgListBo> dataList = new ArrayList();
 
     public static MessageFragment getInstance() {
         MessageFragment fragment = new MessageFragment();
@@ -74,7 +76,7 @@ public class MessageFragment extends BaseFragment {
 
     @Override
     protected void initPresenter() {
-        orderPresenter = new MainPresenter(new DataManager());
+        mPresenter = new MainPresenter(new DataManager());
     }
 
     @Override
@@ -89,19 +91,35 @@ public class MessageFragment extends BaseFragment {
     }
 
     public void refreshInfo() {
-        String account = MMKV.defaultMMKV().decodeString(MyConstant.ACCOUNT);
-        if (orderPresenter == null) {
-            orderPresenter = new MainPresenter(new DataManager());
+        if (mPresenter == null) {
+            mPresenter = new MainPresenter(new DataManager());
         }
-        orderPresenter.loadChatList(account, new NetCallBack<List<ChatListBo>>() {
+        mPresenter.postMessageList(new NetCallBack<List<MsgListBo>>() {
             @Override
-            public void onLoadSuccess(List<ChatListBo> data) {
-
+            public void onLoadSuccess(List<MsgListBo> data) {
+                dataList.clear();
+                dataList.addAll(data);
+                if (CollectionUtils.isNotEmpty(dataList)) {
+                    rcMsgList.setVisibility(View.VISIBLE);
+                    mLayoutError.setVisibility(View.GONE);
+                    rcMsgList.setLayoutManager(new LinearLayoutManager(activity));
+                    msgAdapter = new MsgListAdapter(R.layout.item_order_list, dataList);
+                    View footView = getLayoutInflater().inflate(R.layout.common_footview, null);
+                    msgAdapter.addFooterView(footView);
+                    rcMsgList.setAdapter(msgAdapter);
+                } else {
+                    rcMsgList.setVisibility(View.GONE);
+                    mLayoutError.setVisibility(View.VISIBLE);
+                    tvError.setText("暂无消息");
+                }
             }
 
             @Override
             public void onLoadFailed(String errMsg) {
-
+                ToastUtils.showShort("网络异常");
+                rcMsgList.setVisibility(View.GONE);
+                mLayoutError.setVisibility(View.VISIBLE);
+                tvError.setText("暂无消息");
             }
         });
     }
@@ -114,19 +132,19 @@ public class MessageFragment extends BaseFragment {
         refreshInfo();
     }
 
-    private class OrderListAdapter extends BaseQuickAdapter<MallBo, BaseViewHolder> {
+    private class MsgListAdapter extends BaseQuickAdapter<MsgListBo, BaseViewHolder> {
 
-        public OrderListAdapter(int layoutResId, @Nullable List<MallBo> data) {
+        public MsgListAdapter(int layoutResId, @Nullable List<MsgListBo> data) {
             super(layoutResId, data);
         }
 
         @Override
-        protected void convert(@NotNull BaseViewHolder holder, MallBo itemBo) {
+        protected void convert(@NotNull BaseViewHolder holder, MsgListBo itemBo) {
             ImageView tvImg = holder.getView(R.id.tvImg);
-            InfoUtil.setImg(itemBo.img, tvImg);
-            holder.setText(R.id.tvName, itemBo.name);
-            holder.setText(R.id.tvStatus, "发货状态: 已发货");
-            holder.setText(R.id.tvFinalPrice, "成交价: " + itemBo.price);
+            //InfoUtil.setImg(itemBo.img, tvImg);
+            holder.setText(R.id.tvName, itemBo.content);
+//            holder.setText(R.id.tvStatus, "发货状态: 已发货");
+//            holder.setText(R.id.tvFinalPrice, "成交价: " + itemBo.price);
             holder.itemView.setOnClickListener(v -> {
                 //跳转
             });

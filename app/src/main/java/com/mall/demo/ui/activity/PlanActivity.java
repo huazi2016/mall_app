@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,19 +15,13 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.blankj.utilcode.util.CollectionUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.mall.demo.R;
 import com.mall.demo.base.activity.BaseActivity;
-import com.mall.demo.base.application.MyApp;
 import com.mall.demo.base.utils.Utils;
-import com.mall.demo.bean.MallBo;
 import com.mall.demo.bean.PlanBo;
 import com.mall.demo.custom.loading.LoadingView;
-import com.mall.demo.dao.MallDao;
-import com.mall.demo.utils.InfoUtil;
-import com.tencent.mmkv.MMKV;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -39,7 +32,7 @@ import butterknife.BindView;
 
 public class PlanActivity extends BaseActivity {
 
-    @BindView(R.id.rcOrderList)
+    @BindView(R.id.rcMsgList)
     RecyclerView rcOrderList;
 
     @BindView(R.id.register_toolbar)

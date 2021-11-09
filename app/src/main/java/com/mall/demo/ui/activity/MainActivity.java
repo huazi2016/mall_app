@@ -48,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
     LoadingView mLoadingView;
 
     private boolean isLoad = false;
+    private boolean isLoadMsg = false;
     private static final int INDEX_HOMEPAGE = 0;
     private static final int INDEX_PROJECT = 1;
     private static final int INDEX_MESSAGE = 2;
@@ -120,11 +121,11 @@ public class MainActivity extends AppCompatActivity {
                             return true;
                         case R.id.menu_message:
                             switchFragment(INDEX_MESSAGE);
-//                            if (isLoad) {
-//                                MessageFragment fragment = (MessageFragment) getFragment(INDEX_MESSAGE);
-//                                fragment.refreshInfo();
-//                            }
-//                            isLoad = true;
+                            if (isLoadMsg) {
+                                MessageFragment fragment = (MessageFragment) getFragment(INDEX_MESSAGE);
+                                fragment.refreshInfo();
+                            }
+                            isLoadMsg = true;
                             return true;
                         case R.id.menu_square:
                             switchFragment(INDEX_SQUARE);

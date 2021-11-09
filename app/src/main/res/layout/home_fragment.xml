@@ -14,7 +14,7 @@
     <include layout="@layout/common_title_layout" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rcHomeList"
+        android:id="@+id/rcOrderList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:itemCount="3" />

@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,45 +17,41 @@ import androidx.core.graphics.ColorUtils;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.mall.demo.R;
 import com.mall.demo.base.fragment.BaseFragment;
 import com.mall.demo.bean.EventBo;
-import com.mall.demo.bean.MallBo;
+import com.mall.demo.bean.GoodsBo;
 import com.mall.demo.net.DataManager;
-import com.mall.demo.net.MainContract;
 import com.mall.demo.net.MainPresenter;
+import com.mall.demo.net.NetCallBack;
 import com.mall.demo.ui.activity.GoodsActivity;
-import com.mall.demo.utils.InfoUtil;
-import com.tencent.mmkv.MMKV;
 
 import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.OnClick;
 
 
-public class HomeFragment extends BaseFragment implements MainContract.View {
+public class HomeFragment extends BaseFragment {
 
     @BindView(R.id.ivCommonBack)
     AppCompatImageView ivCommonBack;
     @BindView(R.id.tvCommonTitle)
     AppCompatTextView tvCommonTitle;
-    @BindView(R.id.rcHomeList)
+    @BindView(R.id.rcOrderList)
     RecyclerView rcHomeList;
     @BindView(R.id.layout_error)
     ViewGroup mLayoutError;
 
-    private MainPresenter loginPresenter;
+    private MainPresenter mPresenter;
     private HomeListAdapter homeAdapter;
-    private List<MallBo> dataList = new ArrayList();
+    private List<GoodsBo> dataList = new ArrayList();
 
     public static HomeFragment getInstance() {
         HomeFragment fragment = new HomeFragment();
@@ -76,18 +71,9 @@ public class HomeFragment extends BaseFragment implements MainContract.View {
 
     @Override
     protected void initPresenter() {
-        loginPresenter = new MainPresenter(new DataManager());
-        loginPresenter.attachView(this);
-    }
-
-    @Override
-    public void showCategoryList(List<String> dataList) {
-        Toast.makeText(activity, dataList.get(0) + "", Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void showError(String message) {
-
+        mPresenter = new MainPresenter(new DataManager());
+        //mPresenter.attachView(this);
+        loadGoodsList("");
     }
 
     @Override
@@ -106,30 +92,43 @@ public class HomeFragment extends BaseFragment implements MainContract.View {
         initStatusBar();
         ivCommonBack.setVisibility(View.GONE);
         tvCommonTitle.setText("商品");
-
-        String userName = MMKV.defaultMMKV().decodeString("user_name");
-        dataList = InfoUtil.getGoodsList(userName);
-
-        rcHomeList.setLayoutManager(new LinearLayoutManager(getContext()));
-        homeAdapter = new HomeListAdapter(R.layout.item_home_list, dataList);
-        View footView = getLayoutInflater().inflate(R.layout.common_footview, null);
-        homeAdapter.addFooterView(footView);
-        rcHomeList.setAdapter(homeAdapter);
-
+        //String userName = MMKV.defaultMMKV().decodeString("user_name");
+        //dataList = InfoUtil.getGoodsList(userName);
     }
 
-    private class HomeListAdapter extends BaseQuickAdapter<MallBo, BaseViewHolder> {
+    private void loadGoodsList(String key) {
+        mPresenter.postSearchGoods(key, new NetCallBack<List<GoodsBo>>() {
+            @Override
+            public void onLoadSuccess(List<GoodsBo> data) {
+                dataList.clear();
+                dataList.addAll(data);
+                rcHomeList.setLayoutManager(new LinearLayoutManager(getContext()));
+                homeAdapter = new HomeListAdapter(R.layout.item_home_list, dataList);
+                View footView = getLayoutInflater().inflate(R.layout.common_footview, null);
+                homeAdapter.addFooterView(footView);
+                rcHomeList.setAdapter(homeAdapter);
+            }
 
-        public HomeListAdapter(int layoutResId, @Nullable List<MallBo> data) {
+            @Override
+            public void onLoadFailed(String errMsg) {
+
+            }
+        });
+    }
+
+    private class HomeListAdapter extends BaseQuickAdapter<GoodsBo, BaseViewHolder> {
+
+        public HomeListAdapter(int layoutResId, @Nullable List<GoodsBo> data) {
             super(layoutResId, data);
         }
 
         @Override
-        protected void convert(@NotNull BaseViewHolder holder, MallBo itemBo) {
+        protected void convert(@NotNull BaseViewHolder holder, GoodsBo itemBo) {
             ImageView ivImg = holder.getView(R.id.tvImg);
-            InfoUtil.setImg(itemBo.img, ivImg);
-            holder.setText(R.id.tvName, itemBo.name);
-            holder.setText(R.id.tvSubtitle, itemBo.subtitle);
+            //InfoUtil.setImg(itemBo.img, ivImg);
+            Glide.with(activity).load(itemBo.img).into(ivImg);
+            holder.setText(R.id.tvName, itemBo.title);
+            holder.setText(R.id.tvSubtitle, itemBo.desc);
             holder.setText(R.id.tvPrice, "价格：" + itemBo.price);
             holder.itemView.setOnClickListener(v -> {
                 GoodsActivity.launchActivity(activity, itemBo);

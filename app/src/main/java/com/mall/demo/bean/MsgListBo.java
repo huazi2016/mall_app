@@ -7,8 +7,9 @@ package com.mall.demo.bean;
  * @描述
  * @公司 blueCat
  */
-public class ChatListBo {
+public class MsgListBo {
     public String msgId;
     public String sendname;  //发送人员
+    public String receiveName;
     public String content;
 }

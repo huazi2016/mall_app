@@ -1,15 +1,15 @@
 package com.mall.demo.net;
 
-import com.mall.demo.bean.ChatListBo;
+import com.mall.demo.bean.MsgListBo;
+import com.mall.demo.bean.GoodsBo;
 import com.mall.demo.bean.LoginBo;
+import com.mall.demo.bean.OrderBo;
 
 import java.util.List;
 import io.reactivex.Observable;
 import okhttp3.RequestBody;
 import retrofit2.http.Body;
-import retrofit2.http.GET;
 import retrofit2.http.POST;
-import retrofit2.http.Query;
 
 /**
  * api service
@@ -31,19 +31,19 @@ public interface ApiService {
     Observable<BaseResponse<LoginBo>> postUpdateUser(@Body RequestBody body);
 
     @POST(BASE_URL + "rest/searchGoods")
-    Observable<BaseResponse<LoginBo>> postSearchGoods(@Body RequestBody body);
+    Observable<BaseResponse<List<GoodsBo>>> postSearchGoods(@Body RequestBody body);
 
     @POST(BASE_URL + "rest/getGoods")
-    Observable<BaseResponse<LoginBo>> postGetGoods(@Body RequestBody body);
+    Observable<BaseResponse<GoodsBo>> postGetGoods(@Body RequestBody body);
 
     @POST(BASE_URL + "rest/payGoods")
-    Observable<BaseResponse<LoginBo>> postPayGoods(@Body RequestBody body);
+    Observable<BaseResponse<GoodsBo>> postPayGoods(@Body RequestBody body);
 
     @POST(BASE_URL + "rest/publishGoods")
     Observable<BaseResponse<LoginBo>> posPublishGoods(@Body RequestBody body);
 
     @POST(BASE_URL + "rest/orderList")
-    Observable<BaseResponse<LoginBo>> postOrderList(@Body RequestBody body);
+    Observable<BaseResponse<List<OrderBo>>> postOrderList(@Body RequestBody body);
 
     @POST(BASE_URL + "rest/getOrder")
     Observable<BaseResponse<LoginBo>> postGetOrder(@Body RequestBody body);
@@ -58,6 +58,6 @@ public interface ApiService {
     Observable<BaseResponse<LoginBo>> postMessageHistory(@Body RequestBody body);
 
     @POST(BASE_URL + "rest/messageList")
-    Observable<BaseResponse<List<ChatListBo>>> postMessageList(@Body RequestBody body);
+    Observable<BaseResponse<List<MsgListBo>>> postMessageList(@Body RequestBody body);
 
 }
