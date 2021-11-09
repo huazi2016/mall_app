@@ -49,7 +49,7 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.activity.HealthActivity"
+            android:name=".ui.activity.UserInfoActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity

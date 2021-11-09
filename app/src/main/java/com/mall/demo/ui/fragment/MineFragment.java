@@ -15,28 +15,42 @@ import com.lxj.xpopup.interfaces.OnCancelListener;
 import com.lxj.xpopup.interfaces.OnConfirmListener;
 import com.mall.demo.R;
 import com.mall.demo.base.fragment.BaseFragment;
-import com.mall.demo.base.utils.GlideImageLoader;
-import com.mall.demo.ui.activity.HealthActivity;
+import com.mall.demo.bean.LoginBo;
+import com.mall.demo.bean.UserEventBo;
+import com.mall.demo.net.DataManager;
+import com.mall.demo.net.MainPresenter;
+import com.mall.demo.ui.activity.UserInfoActivity;
 import com.mall.demo.ui.activity.LoginActivity;
-import com.mall.demo.ui.activity.PlanActivity;
 import com.mall.demo.utils.MyConstant;
 import com.tencent.mmkv.MMKV;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import butterknife.BindView;
 import butterknife.OnClick;
+import kotlin.Suppress;
 
 
 public class MineFragment extends BaseFragment {
 
     @BindView(R.id.tvMineName)
     AppCompatTextView tvMineName;
-
     @BindView(R.id.ivMineHead)
     AppCompatImageView ivMineHead;
+
+    private MainPresenter mPresenter;
 
     public static MineFragment getInstance() {
         MineFragment fragment = new MineFragment();
         return fragment;
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void getUsrInfo(UserEventBo eventBo) {
+        tvMineName.setText(eventBo.username);
+        Glide.with(activity).load(eventBo.headUrl).into(ivMineHead);
     }
 
     @Override
@@ -46,17 +60,19 @@ public class MineFragment extends BaseFragment {
 
     @Override
     protected void initPresenter() {
-        //chatPresenter = new MainPresenter(new DataManager());
+        mPresenter = new MainPresenter(new DataManager());
     }
 
     @Override
     protected void init() {
+        EventBus.getDefault().register(this);
         String name = MMKV.defaultMMKV().decodeString(MyConstant.USERNAME);
         String headurl = MMKV.defaultMMKV().decodeString(MyConstant.HEADURL);
         tvMineName.setText(name);
         Glide.with(activity).load(headurl).into(ivMineHead);
     }
-    @OnClick({R.id.clMineItem02, R.id.clMineItem03, R.id.clMineItem04})
+
+    @OnClick({R.id.clMineItem02, R.id.clMineItem03})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.clMineItem02: {
@@ -64,8 +80,11 @@ public class MineFragment extends BaseFragment {
                         new OnConfirmListener() {
                             @Override
                             public void onConfirm() {
+                                mPresenter.postLogout();
                                 LoginActivity.launchActivity(activity);
-                                MMKV.defaultMMKV().encode("login_flag", 0);
+                                MMKV.defaultMMKV().encode(MyConstant.ACCOUNT, "");
+                                MMKV.defaultMMKV().encode(MyConstant.USERNAME, "");
+                                MMKV.defaultMMKV().encode(MyConstant.HEADURL, "");
                                 activity.finish();
                             }
                         }, new OnCancelListener() {
@@ -77,11 +96,7 @@ public class MineFragment extends BaseFragment {
                 break;
             }
             case R.id.clMineItem03: {
-                HealthActivity.launchActivity(activity);
-                break;
-            }
-            case R.id.clMineItem04: {
-                PlanActivity.launchActivity(activity);
+                UserInfoActivity.launchActivity(activity);
                 break;
             }
             default: {
@@ -112,5 +127,6 @@ public class MineFragment extends BaseFragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        EventBus.getDefault().unregister(this);
     }
 }

@@ -17,26 +17,43 @@
         app:layout_constraintTop_toTopOf="parent"
         app:titleTextColor="@color/always_white_text" />
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/ivHeadImg"
-        android:layout_width="match_parent"
-        android:layout_height="220dp"
-        android:layout_marginLeft="@dimen/dp15"
-        android:layout_marginTop="@dimen/dp10"
-        android:layout_marginRight="@dimen/dp15"
-        android:scaleType="fitXY"
-        android:src="@drawable/head_icon"
+    <EditText
+        android:id="@+id/etUserName"
+        style="@style/editText_style"
+        android:layout_marginTop="@dimen/dp30"
+        android:layout_marginLeft="@dimen/dp20"
+        android:layout_marginRight="@dimen/dp20"
+        android:hint="请输入用户名"
+        android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/register_toolbar" />
+        app:layout_constraintTop_toBottomOf="@id/register_toolbar" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rcOrderList"
+    <EditText
+        android:id="@+id/etHeadUrl"
+        style="@style/editText_style"
+        android:layout_marginTop="@dimen/dp15"
+        android:layout_marginLeft="@dimen/dp20"
+        android:layout_marginRight="@dimen/dp20"
+        android:hint="请输入头像链接"
+        android:inputType="text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/etUserName" />
+
+    <Button
+        android:id="@+id/btnUserInfo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/ivHeadImg"
-        tools:itemCount="3"
-        tools:listitem="@layout/item_health_list" />
+        android:layout_marginLeft="@dimen/dp40"
+        android:layout_marginTop="@dimen/dp30"
+        android:layout_marginRight="@dimen/dp40"
+        android:background="@drawable/edit_shap"
+        android:text="修改"
+        android:textColor="@color/always_white_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/etHeadUrl" />
 
     <com.mall.demo.custom.loading.LoadingView
         android:id="@+id/loading_view"
@@ -47,16 +64,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <include
-        android:id="@+id/layout_error"
-        layout="@layout/network_error"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/register_toolbar" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

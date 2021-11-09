@@ -4,11 +4,15 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.MenuItem;
+import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.widget.Button;
+import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,89 +20,81 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.blankj.utilcode.util.CollectionUtils;
+import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
+import com.lxj.xpopup.XPopup;
+import com.lxj.xpopup.interfaces.OnConfirmListener;
 import com.mall.demo.R;
 import com.mall.demo.base.activity.BaseActivity;
-import com.mall.demo.base.application.MyApp;
 import com.mall.demo.base.utils.Utils;
-import com.mall.demo.bean.MallBo;
+import com.mall.demo.bean.LoginBo;
 import com.mall.demo.bean.PlanBo;
+import com.mall.demo.bean.UserEventBo;
 import com.mall.demo.custom.loading.LoadingView;
-import com.mall.demo.dao.MallDao;
-import com.mall.demo.utils.InfoUtil;
+import com.mall.demo.net.DataManager;
+import com.mall.demo.net.MainPresenter;
+import com.mall.demo.net.NetCallBack;
+import com.mall.demo.utils.MyConstant;
 import com.tencent.mmkv.MMKV;
 
+import org.greenrobot.eventbus.EventBus;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
-public class HealthActivity extends BaseActivity {
+public class UserInfoActivity extends BaseActivity {
 
-    @BindView(R.id.rcOrderList)
-    RecyclerView rcOrderList;
+    @BindView(R.id.etUserName)
+    EditText etUserName;
 
     @BindView(R.id.register_toolbar)
     Toolbar mToolbar;
 
+    @BindView(R.id.etHeadUrl)
+    EditText etHeadUrl;
+
+    @BindView(R.id.btnUserInfo)
+    Button btnUserInfo;
+
     @BindView(R.id.loading_view)
     LoadingView mLoading;
 
-    @BindView(R.id.layout_error)
-    ViewGroup mLayoutError;
-
     private Context mContext;
-    private final List<PlanBo> dataList = new ArrayList();
-    private OrderListAdapter orderAdapter;
+    private MainPresenter mPresenter;
 
     public static void launchActivity(Activity activity) {
-        Intent intent = new Intent(activity, HealthActivity.class);
+        Intent intent = new Intent(activity, UserInfoActivity.class);
         activity.startActivity(intent);
     }
 
 
     @Override
     protected int getContentViewId() {
-        return R.layout.activity_health;
+        return R.layout.activity_user_info;
     }
 
     @Override
     protected void init(Bundle savedInstanceState) {
         mContext = getApplicationContext();
         initToolbar();
-        for (int i = 0; i < 4; i++) {
-            PlanBo bo = new PlanBo();
-            if (i == 0) {
-                bo.name = "身高";
-                bo.value = "1.80m";
-            } else if (i == 1) {
-                bo.name = "体重";
-                bo.value = "60公斤";
-            } else if (i == 2) {
-                bo.name = "血压";
-                bo.value = "68mmHg";
-            } else if (i == 3) {
-                bo.name = "心跳";
-                bo.value = "76/分钟";
-            }
-            dataList.add(bo);
-        }
-        setInfo();
+        btnUserInfo.getBackground().setColorFilter(
+                Utils.getColor(mContext), PorterDuff.Mode.SRC_ATOP);
     }
 
     @Override
     protected void initPresenter() {
-
+        mPresenter = new MainPresenter(new DataManager());
     }
 
     private void initToolbar() {
         getWindow().setStatusBarColor(Utils.getColor(mContext));
         mToolbar.setBackgroundColor(Utils.getColor(mContext));
-        mToolbar.setTitle("健康数据");
+        mToolbar.setTitle("个人资料");
         mToolbar.setTitleTextColor(Color.WHITE);
         setSupportActionBar(mToolbar);
         if (getSupportActionBar() != null) {
@@ -116,14 +112,40 @@ public class HealthActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void setInfo() {
-        rcOrderList.setVisibility(View.VISIBLE);
-        mLayoutError.setVisibility(View.GONE);
-        rcOrderList.setLayoutManager(new LinearLayoutManager(activity));
-        orderAdapter = new OrderListAdapter(R.layout.item_health_list, dataList);
-        View footView = getLayoutInflater().inflate(R.layout.common_footview, null);
-        orderAdapter.addFooterView(footView);
-        rcOrderList.setAdapter(orderAdapter);
+    @OnClick({R.id.btnUserInfo})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.btnUserInfo: {
+                String userName = etUserName.getText().toString().trim();
+                String headUrl = etHeadUrl.getText().toString().trim();
+                if (TextUtils.isEmpty(userName) && TextUtils.isEmpty(headUrl)) {
+                    ToastUtils.showShort("请完善信息");
+                    return;
+                }
+                startAnim();
+                mPresenter.postUpdateUser(userName, headUrl, new NetCallBack<LoginBo>() {
+                    @Override
+                    public void onLoadSuccess(LoginBo data) {
+                        stopAnim();
+                        ToastUtils.showShort("修改成功");
+                        MMKV.defaultMMKV().encode(MyConstant.HEADURL, data.headUrl);
+                        MMKV.defaultMMKV().encode(MyConstant.USERNAME, data.username);
+                        EventBus.getDefault().post(new UserEventBo(data.username, data.headUrl));
+                        finish();
+                    }
+
+                    @Override
+                    public void onLoadFailed(String errMsg) {
+                        stopAnim();
+                        ToastUtils.showShort("修改失败");
+                    }
+                });
+                break;
+            }
+            default: {
+                break;
+            }
+        }
     }
 
     private class OrderListAdapter extends BaseQuickAdapter<PlanBo, BaseViewHolder> {

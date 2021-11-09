@@ -24,7 +24,40 @@ public interface ApiService {
     @POST(BASE_URL + "rest/login")
     Observable<BaseResponse<LoginBo>> postLogin(@Body RequestBody body);
 
-    @GET(BASE_URL + "rest/login")
-    Observable<BaseResponse<List<ChatListBo>>> getChatList(@Query("account") String account);
+    @POST(BASE_URL + "rest/logout")
+    Observable<BaseResponse<LoginBo>> postLogout(@Body RequestBody body);
+
+    @POST(BASE_URL + "rest/updateUser")
+    Observable<BaseResponse<LoginBo>> postUpdateUser(@Body RequestBody body);
+
+    @POST(BASE_URL + "rest/searchGoods")
+    Observable<BaseResponse<LoginBo>> postSearchGoods(@Body RequestBody body);
+
+    @POST(BASE_URL + "rest/getGoods")
+    Observable<BaseResponse<LoginBo>> postGetGoods(@Body RequestBody body);
+
+    @POST(BASE_URL + "rest/payGoods")
+    Observable<BaseResponse<LoginBo>> postPayGoods(@Body RequestBody body);
+
+    @POST(BASE_URL + "rest/publishGoods")
+    Observable<BaseResponse<LoginBo>> posPublishGoods(@Body RequestBody body);
+
+    @POST(BASE_URL + "rest/orderList")
+    Observable<BaseResponse<LoginBo>> postOrderList(@Body RequestBody body);
+
+    @POST(BASE_URL + "rest/getOrder")
+    Observable<BaseResponse<LoginBo>> postGetOrder(@Body RequestBody body);
+
+    @POST(BASE_URL + "rest/updateOrder")
+    Observable<BaseResponse<LoginBo>> postUpdateOrder(@Body RequestBody body);
+
+    @POST(BASE_URL + "rest/removeOrder")
+    Observable<BaseResponse<LoginBo>> postRemoveOrder(@Body RequestBody body);
+
+    @POST(BASE_URL + "rest/messageHistory")
+    Observable<BaseResponse<LoginBo>> postMessageHistory(@Body RequestBody body);
+
+    @POST(BASE_URL + "rest/messageList")
+    Observable<BaseResponse<List<ChatListBo>>> postMessageList(@Body RequestBody body);
 
 }

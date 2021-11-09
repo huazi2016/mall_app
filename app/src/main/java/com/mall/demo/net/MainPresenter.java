@@ -85,8 +85,65 @@ public class MainPresenter extends BasePresenter<MainContract.View> {
                 });
     }
 
+    public void postUpdateUser(String name, String url, NetCallBack<LoginBo> callBack) {
+        Observable<BaseResponse<LoginBo>> observable = dataManager.postUpdateUser(name, url);
+        observable.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<BaseResponse<LoginBo>>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        disposable = d;
+                    }
+
+                    @Override
+                    public void onNext(@NotNull BaseResponse<LoginBo> resultBo) {
+                        if (resultBo.getErrorCode() != 0) {
+                            callBack.onLoadFailed(resultBo.getErrorMsg());
+                            return;
+                        }
+                        callBack.onLoadSuccess(resultBo.getData());
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        callBack.onLoadFailed(e.getMessage());
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+    }
+
+    public void postLogout() {
+        Observable<BaseResponse<LoginBo>> observable = dataManager.postLogout();
+        observable.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<BaseResponse<LoginBo>>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        disposable = d;
+                    }
+
+                    @Override
+                    public void onNext(@NotNull BaseResponse<LoginBo> resultBo) {
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+    }
+
     public void loadChatList(String account, NetCallBack<List<ChatListBo>> callBack) {
-        Observable<BaseResponse<List<ChatListBo>>> observable = dataManager.loadChatList(account);
+        Observable<BaseResponse<List<ChatListBo>>> observable = dataManager.loadChatList();
         observable.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<BaseResponse<List<ChatListBo>>>() {
@@ -117,7 +174,7 @@ public class MainPresenter extends BasePresenter<MainContract.View> {
     }
 
     public void sendMsg(String role, NetCallBack<List<ChatListBo>> callBack) {
-        Observable<BaseResponse<List<ChatListBo>>> observable = dataManager.loadChatList(role);
+        Observable<BaseResponse<List<ChatListBo>>> observable = dataManager.loadChatList();
         observable.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<BaseResponse<List<ChatListBo>>>() {
