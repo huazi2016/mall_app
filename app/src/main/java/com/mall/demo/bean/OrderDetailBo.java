@@ -9,7 +9,7 @@ package com.mall.demo.bean;
 public class OrderDetailBo {
     public String bigImg;
     public String title;
-    public String addresss;  //收获地址
+    public String address;  //收获地址
     public String status; //发货状态
     public String phone; //发货状态
     public String num;

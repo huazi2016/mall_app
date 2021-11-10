@@ -25,11 +25,15 @@ import com.mall.demo.R;
 import com.mall.demo.base.activity.BaseActivity;
 import com.mall.demo.base.utils.Utils;
 import com.mall.demo.bean.OrderBo;
+import com.mall.demo.bean.OrderEventBo;
 import com.mall.demo.custom.loading.LoadingView;
 import com.mall.demo.net.DataManager;
 import com.mall.demo.net.MainPresenter;
 import com.mall.demo.net.NetCallBack;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -61,6 +65,10 @@ public class OrderActivity extends BaseActivity {
         activity.startActivity(intent);
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void refreshOrderList(OrderEventBo eventBo) {
+        postOrderList();
+    }
 
     @Override
     protected int getContentViewId() {
@@ -69,6 +77,7 @@ public class OrderActivity extends BaseActivity {
 
     @Override
     protected void init(Bundle savedInstanceState) {
+        EventBus.getDefault().register(this);
         mContext = getApplicationContext();
         initToolbar();
     }
@@ -89,10 +98,14 @@ public class OrderActivity extends BaseActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowTitleEnabled(true);
         }
+        startAnim();
+        postOrderList();
+    }
+
+    private void postOrderList() {
         if (mPresenter == null) {
             mPresenter = new MainPresenter(new DataManager());
         }
-        startAnim();
         mPresenter.postOrderList(new NetCallBack<List<OrderBo>>() {
             @Override
             public void onLoadSuccess(List<OrderBo> data) {
@@ -150,11 +163,16 @@ public class OrderActivity extends BaseActivity {
             holder.setText(R.id.tvStatus, itemBo.status);
             holder.setText(R.id.tvFinalPrice, "成交价: " + itemBo.price);
             holder.itemView.setOnClickListener(v -> {
-                //跳转
-                // TODO: 11/9/21 补充订单详情
-                //itemBo.orderId;
+                //跳转订单详情
+                OrderDetailActivity.launchActivity(activity, itemBo.orderId);
             });
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        EventBus.getDefault().unregister(this);
+        super.onDestroy();
     }
 
     private void startAnim() {

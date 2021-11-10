@@ -5,6 +5,7 @@ import com.mall.demo.bean.MsgListBo;
 import com.mall.demo.bean.GoodsBo;
 import com.mall.demo.bean.LoginBo;
 import com.mall.demo.bean.OrderBo;
+import com.mall.demo.bean.OrderDetailBo;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -192,6 +193,99 @@ public class MainPresenter extends BasePresenter<MainContract.View> {
 
                     @Override
                     public void onNext(@NotNull BaseResponse<List<OrderBo>> resultBo) {
+                        if (resultBo.getErrorCode() != 0) {
+                            callBack.onLoadFailed(resultBo.getErrorMsg());
+                            return;
+                        }
+                        callBack.onLoadSuccess(resultBo.getData());
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        callBack.onLoadFailed(e.getMessage());
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+    }
+
+    public void postGetOrder(String orderId, NetCallBack<OrderDetailBo> callBack) {
+        Observable<BaseResponse<OrderDetailBo>> observable = dataManager.postGetOrder(orderId);
+        observable.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<BaseResponse<OrderDetailBo>>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        disposable = d;
+                    }
+
+                    @Override
+                    public void onNext(@NotNull BaseResponse<OrderDetailBo> resultBo) {
+                        if (resultBo.getErrorCode() != 0) {
+                            callBack.onLoadFailed(resultBo.getErrorMsg());
+                            return;
+                        }
+                        callBack.onLoadSuccess(resultBo.getData());
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        callBack.onLoadFailed(e.getMessage());
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+    }
+
+    public void postRemoveOrder(String orderId, NetCallBack<OrderBo> callBack) {
+        Observable<BaseResponse<OrderBo>> observable = dataManager.postRemoveOrder(orderId);
+        observable.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<BaseResponse<OrderBo>>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        disposable = d;
+                    }
+
+                    @Override
+                    public void onNext(@NotNull BaseResponse<OrderBo> resultBo) {
+                        if (resultBo.getErrorCode() != 0) {
+                            callBack.onLoadFailed(resultBo.getErrorMsg());
+                            return;
+                        }
+                        callBack.onLoadSuccess(resultBo.getData());
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        callBack.onLoadFailed(e.getMessage());
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+    }
+
+    public void postUpdateOrder(String orderId, String address, String phone, String num, NetCallBack<OrderBo> callBack) {
+        Observable<BaseResponse<OrderBo>> observable = dataManager.postUpdateOrder(orderId, address, phone, num);
+        observable.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<BaseResponse<OrderBo>>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        disposable = d;
+                    }
+
+                    @Override
+                    public void onNext(@NotNull BaseResponse<OrderBo> resultBo) {
                         if (resultBo.getErrorCode() != 0) {
                             callBack.onLoadFailed(resultBo.getErrorMsg());
                             return;

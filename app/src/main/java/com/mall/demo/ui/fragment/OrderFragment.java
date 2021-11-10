@@ -25,12 +25,17 @@ import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.mall.demo.R;
 import com.mall.demo.base.fragment.BaseFragment;
 import com.mall.demo.bean.EventBo;
+import com.mall.demo.bean.GoodsEventBo;
 import com.mall.demo.bean.OrderBo;
+import com.mall.demo.bean.OrderEventBo;
 import com.mall.demo.net.DataManager;
 import com.mall.demo.net.MainPresenter;
 import com.mall.demo.net.NetCallBack;
+import com.mall.demo.ui.activity.OrderDetailActivity;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -59,6 +64,11 @@ public class OrderFragment extends BaseFragment {
         return fragment;
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void refreshOrderList(OrderEventBo eventBo) {
+        refreshInfo();
+    }
+
     @Override
     protected int getContentViewId() {
         return R.layout.order_fragment;
@@ -83,6 +93,7 @@ public class OrderFragment extends BaseFragment {
 
     @Override
     public void onDestroyView() {
+        EventBus.getDefault().unregister(this);
         super.onDestroyView();
     }
 
@@ -120,6 +131,7 @@ public class OrderFragment extends BaseFragment {
 
     @Override
     protected void init() {
+        EventBus.getDefault().register(this);
         initStatusBar();
         ivCommonBack.setVisibility(View.GONE);
         tvCommonTitle.setText("订单");
@@ -145,8 +157,8 @@ public class OrderFragment extends BaseFragment {
             holder.setText(R.id.tvStatus, itemBo.status);
             holder.setText(R.id.tvFinalPrice, "成交价: " + itemBo.price);
             holder.itemView.setOnClickListener(v -> {
-                //跳转
-                // TODO: 11/9/21 补充跳转
+                //跳转订单详情
+                OrderDetailActivity.launchActivity(activity, itemBo.orderId);
             });
         }
     }

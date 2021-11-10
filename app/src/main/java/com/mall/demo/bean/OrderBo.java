@@ -12,5 +12,6 @@ public class OrderBo {
     public String orderId;
     public String status; //发货状态
     public String num;
+    public String address;
     public String price;
 }

@@ -5,6 +5,7 @@ import com.mall.demo.bean.MsgListBo;
 import com.mall.demo.bean.GoodsBo;
 import com.mall.demo.bean.LoginBo;
 import com.mall.demo.bean.OrderBo;
+import com.mall.demo.bean.OrderDetailBo;
 import com.mall.demo.utils.LogUtils;
 import com.mall.demo.utils.MyConstant;
 import com.tencent.mmkv.MMKV;
@@ -143,5 +144,44 @@ public class DataManager {
         String contentType = "application/json;charset=UTF-8";
         RequestBody body = RequestBody.create(MediaType.parse(contentType), json);
         return apiService.postPublishGoods(body);
+    }
+
+    public Observable<BaseResponse<OrderDetailBo>> postGetOrder(String orderId) {
+        String account = MMKV.defaultMMKV().decodeString(MyConstant.ACCOUNT);
+        HashMap<String, String> jsonMap = new HashMap();
+        jsonMap.put("account", account);
+        jsonMap.put("orderId", orderId);
+        String json = new Gson().toJson(jsonMap);
+        LogUtils.d("okhttp:==" + json);
+        String contentType = "application/json;charset=UTF-8";
+        RequestBody body = RequestBody.create(MediaType.parse(contentType), json);
+        return apiService.postGetOrder(body);
+    }
+
+    public Observable<BaseResponse<OrderBo>> postRemoveOrder(String orderId) {
+        String account = MMKV.defaultMMKV().decodeString(MyConstant.ACCOUNT);
+        HashMap<String, String> jsonMap = new HashMap();
+        jsonMap.put("account", account);
+        jsonMap.put("orderId", orderId);
+        String json = new Gson().toJson(jsonMap);
+        LogUtils.d("okhttp:==" + json);
+        String contentType = "application/json;charset=UTF-8";
+        RequestBody body = RequestBody.create(MediaType.parse(contentType), json);
+        return apiService.postRemoveOrder(body);
+    }
+
+    public Observable<BaseResponse<OrderBo>> postUpdateOrder(String orderId, String address, String phone, String num) {
+        String account = MMKV.defaultMMKV().decodeString(MyConstant.ACCOUNT);
+        HashMap<String, String> jsonMap = new HashMap();
+        jsonMap.put("account", account);
+        jsonMap.put("orderId", orderId);
+        jsonMap.put("address", address);
+        jsonMap.put("phone", phone);
+        jsonMap.put("num", num);
+        String json = new Gson().toJson(jsonMap);
+        LogUtils.d("okhttp:==" + json);
+        String contentType = "application/json;charset=UTF-8";
+        RequestBody body = RequestBody.create(MediaType.parse(contentType), json);
+        return apiService.postUpdateOrder(body);
     }
 }

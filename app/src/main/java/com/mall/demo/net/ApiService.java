@@ -4,6 +4,7 @@ import com.mall.demo.bean.MsgListBo;
 import com.mall.demo.bean.GoodsBo;
 import com.mall.demo.bean.LoginBo;
 import com.mall.demo.bean.OrderBo;
+import com.mall.demo.bean.OrderDetailBo;
 
 import java.util.List;
 import io.reactivex.Observable;
@@ -46,13 +47,13 @@ public interface ApiService {
     Observable<BaseResponse<List<OrderBo>>> postOrderList(@Body RequestBody body);
 
     @POST(BASE_URL + "rest/getOrder")
-    Observable<BaseResponse<LoginBo>> postGetOrder(@Body RequestBody body);
+    Observable<BaseResponse<OrderDetailBo>> postGetOrder(@Body RequestBody body);
 
     @POST(BASE_URL + "rest/updateOrder")
-    Observable<BaseResponse<LoginBo>> postUpdateOrder(@Body RequestBody body);
+    Observable<BaseResponse<OrderBo>> postUpdateOrder(@Body RequestBody body);
 
     @POST(BASE_URL + "rest/removeOrder")
-    Observable<BaseResponse<LoginBo>> postRemoveOrder(@Body RequestBody body);
+    Observable<BaseResponse<OrderBo>> postRemoveOrder(@Body RequestBody body);
 
     @POST(BASE_URL + "rest/messageHistory")
     Observable<BaseResponse<LoginBo>> postMessageHistory(@Body RequestBody body);
