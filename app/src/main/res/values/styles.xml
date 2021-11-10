@@ -57,4 +57,27 @@
         <item name="android:layout_centerVertical">true</item>
         <item name="android:textSize">@dimen/sp14</item>
     </style>
+
+    <style name="editText_style02">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/c_333333</item>
+        <item name="android:textColorHint">@color/c_999999</item>
+        <item name="android:paddingLeft">5dp</item>
+        <item name="android:paddingRight">15dp</item>
+        <item name="android:background">@drawable/shape_white_cor</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+
+    <style name="editText_style03">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/dp120</item>
+        <item name="android:textColor">@color/c_333333</item>
+        <item name="android:textColorHint">@color/c_999999</item>
+        <item name="android:paddingLeft">@dimen/dp15</item>
+        <item name="android:paddingRight">@dimen/dp15</item>
+        <item name="android:background">@color/c_white</item>
+        <item name="android:textSize">@dimen/sp14</item>
+    </style>
 </resources>

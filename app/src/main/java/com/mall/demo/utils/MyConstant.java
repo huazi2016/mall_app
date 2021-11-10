@@ -9,6 +9,7 @@ package com.mall.demo.utils;
 public class MyConstant {
 
     public static final String ACCOUNT = "account";
+    public static final String ROLE = "role";
     public static final String HEADURL = "headurl";
     public static final String USERNAME = "username";
 }

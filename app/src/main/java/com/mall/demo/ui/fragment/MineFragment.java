@@ -50,7 +50,10 @@ public class MineFragment extends BaseFragment {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void getUsrInfo(UserEventBo eventBo) {
         tvMineName.setText(eventBo.username);
-        Glide.with(activity).load(eventBo.headUrl).into(ivMineHead);
+        Glide.with(activity).load(eventBo.headUrl)
+                .placeholder(R.drawable.mine_head_default)
+                .error(R.drawable.mine_head_default)
+                .into(ivMineHead);
     }
 
     @Override
@@ -69,7 +72,10 @@ public class MineFragment extends BaseFragment {
         String name = MMKV.defaultMMKV().decodeString(MyConstant.USERNAME);
         String headurl = MMKV.defaultMMKV().decodeString(MyConstant.HEADURL);
         tvMineName.setText(name);
-        Glide.with(activity).load(headurl).into(ivMineHead);
+        Glide.with(activity).load(headurl)
+                .placeholder(R.drawable.mine_head_default)
+                .error(R.drawable.mine_head_default)
+                .into(ivMineHead);
     }
 
     @OnClick({R.id.clMineItem02, R.id.clMineItem03})
@@ -83,6 +89,7 @@ public class MineFragment extends BaseFragment {
                                 mPresenter.postLogout();
                                 LoginActivity.launchActivity(activity);
                                 MMKV.defaultMMKV().encode(MyConstant.ACCOUNT, "");
+                                MMKV.defaultMMKV().encode(MyConstant.ROLE, "");
                                 MMKV.defaultMMKV().encode(MyConstant.USERNAME, "");
                                 MMKV.defaultMMKV().encode(MyConstant.HEADURL, "");
                                 activity.finish();

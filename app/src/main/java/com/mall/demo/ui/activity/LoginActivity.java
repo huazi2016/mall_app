@@ -130,9 +130,11 @@ public class LoginActivity extends BaseActivity {
             public void onLoadSuccess(LoginBo data) {
                 stopAnim();
                 MMKV.defaultMMKV().encode(MyConstant.ACCOUNT, data.account);
+                MMKV.defaultMMKV().encode(MyConstant.ROLE, data.role);
                 MMKV.defaultMMKV().encode(MyConstant.HEADURL, data.headUrl);
                 MMKV.defaultMMKV().encode(MyConstant.USERNAME, data.username);
                 MainActivity.launchActivity(activity);
+                finish();
             }
 
             @Override

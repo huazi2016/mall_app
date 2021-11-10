@@ -128,4 +128,20 @@ public class DataManager {
         RequestBody body = RequestBody.create(MediaType.parse(contentType), json);
         return apiService.postOrderList(body);
     }
+
+    public Observable<BaseResponse<GoodsBo>> postPublishGoods(String title, String desc, String content, String img, String price) {
+        String account = MMKV.defaultMMKV().decodeString(MyConstant.ACCOUNT);
+        HashMap<String, String> jsonMap = new HashMap();
+        jsonMap.put("account", account);
+        jsonMap.put("title", title);
+        jsonMap.put("desc", desc);
+        jsonMap.put("content", content);
+        jsonMap.put("img", img);
+        jsonMap.put("price", price);
+        String json = new Gson().toJson(jsonMap);
+        LogUtils.d("okhttp:==" + json);
+        String contentType = "application/json;charset=UTF-8";
+        RequestBody body = RequestBody.create(MediaType.parse(contentType), json);
+        return apiService.postPublishGoods(body);
+    }
 }

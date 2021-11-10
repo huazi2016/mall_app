@@ -1,5 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/my/mall_app/app/src/main/res/drawable/shape_f35463_cor8.xml" value="0.38055555555555554" />
+        <entry key="..\:/my/mall_app/app/src/main/res/drawable/shape_home_bg.xml" value="0.38055555555555554" />
+        <entry key="..\:/my/mall_app/app/src/main/res/drawable/shape_white_cor.xml" value="0.38055555555555554" />
+        <entry key="..\:/my/mall_app/app/src/main/res/layout/activity_edit.xml" value="0.2604166666666667" />
+        <entry key="..\:/my/mall_app/app/src/main/res/layout/common_footview.xml" value="0.2703804347826087" />
+        <entry key="..\:/my/mall_app/app/src/main/res/layout/home_fragment.xml" value="0.2703804347826087" />
+        <entry key="..\:/my/mall_app/app/src/main/res/layout/item_home_list.xml" value="0.2617753623188406" />
+        <entry key="..\:/my/mall_app/app/src/main/res/layout/item_msg_list.xml" value="0.2703804347826087" />
+        <entry key="..\:/my/mall_app/app/src/main/res/layout/item_order_list.xml" value="0.2703804347826087" />
+        <entry key="..\:/my/mall_app/app/src/main/res/layout/mine_fragment.xml" value="0.2703804347826087" />
+      </map>
+    </option>
+  </component>
+  <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/out" />
   </component>

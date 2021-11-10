@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -26,11 +25,9 @@ import com.mall.demo.R;
 import com.mall.demo.base.fragment.BaseFragment;
 import com.mall.demo.bean.MsgListBo;
 import com.mall.demo.bean.EventBo;
-import com.mall.demo.bean.MallBo;
 import com.mall.demo.net.DataManager;
 import com.mall.demo.net.MainPresenter;
 import com.mall.demo.net.NetCallBack;
-import com.mall.demo.utils.InfoUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.jetbrains.annotations.NotNull;
@@ -103,7 +100,7 @@ public class MessageFragment extends BaseFragment {
                     rcMsgList.setVisibility(View.VISIBLE);
                     mLayoutError.setVisibility(View.GONE);
                     rcMsgList.setLayoutManager(new LinearLayoutManager(activity));
-                    msgAdapter = new MsgListAdapter(R.layout.item_order_list, dataList);
+                    msgAdapter = new MsgListAdapter(R.layout.item_msg_list, dataList);
                     View footView = getLayoutInflater().inflate(R.layout.common_footview, null);
                     msgAdapter.addFooterView(footView);
                     rcMsgList.setAdapter(msgAdapter);
@@ -128,7 +125,7 @@ public class MessageFragment extends BaseFragment {
     protected void init() {
         initStatusBar();
         ivCommonBack.setVisibility(View.GONE);
-        tvCommonTitle.setText("订单");
+        tvCommonTitle.setText("消息");
         refreshInfo();
     }
 
@@ -140,11 +137,9 @@ public class MessageFragment extends BaseFragment {
 
         @Override
         protected void convert(@NotNull BaseViewHolder holder, MsgListBo itemBo) {
-            ImageView tvImg = holder.getView(R.id.tvImg);
-            //InfoUtil.setImg(itemBo.img, tvImg);
-            holder.setText(R.id.tvName, itemBo.content);
-//            holder.setText(R.id.tvStatus, "发货状态: 已发货");
-//            holder.setText(R.id.tvFinalPrice, "成交价: " + itemBo.price);
+            holder.setText(R.id.tvMsgSender, "发送人：" +itemBo.sendName);
+            holder.setText(R.id.tvMsgContent, itemBo.content);
+            holder.setText(R.id.tvMsgTime, itemBo.createTime);
             holder.itemView.setOnClickListener(v -> {
                 //跳转
             });

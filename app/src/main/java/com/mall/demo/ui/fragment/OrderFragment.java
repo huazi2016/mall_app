@@ -136,7 +136,11 @@ public class OrderFragment extends BaseFragment {
         protected void convert(@NotNull BaseViewHolder holder, OrderBo itemBo) {
             ImageView ivImg = holder.getView(R.id.tvImg);
             //InfoUtil.setImg(itemBo.img, ivImg);
-            Glide.with(activity).load(itemBo.img).into(ivImg);
+            Glide.with(activity)
+                    .load(itemBo.img)
+                    .placeholder(R.drawable.icon_goods)
+                    .error(R.drawable.icon_goods)
+                    .into(ivImg);
             holder.setText(R.id.tvName, itemBo.title);
             holder.setText(R.id.tvStatus, itemBo.status);
             holder.setText(R.id.tvFinalPrice, "成交价: " + itemBo.price);

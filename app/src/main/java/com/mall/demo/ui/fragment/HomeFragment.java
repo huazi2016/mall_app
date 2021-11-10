@@ -3,6 +3,8 @@ package com.mall.demo.ui.fragment;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +13,7 @@ import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatEditText;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.core.graphics.ColorUtils;
@@ -24,12 +27,20 @@ import com.mall.demo.R;
 import com.mall.demo.base.fragment.BaseFragment;
 import com.mall.demo.bean.EventBo;
 import com.mall.demo.bean.GoodsBo;
+import com.mall.demo.bean.GoodsEventBo;
+import com.mall.demo.bean.UserEventBo;
 import com.mall.demo.net.DataManager;
 import com.mall.demo.net.MainPresenter;
 import com.mall.demo.net.NetCallBack;
+import com.mall.demo.ui.activity.EditActivity;
 import com.mall.demo.ui.activity.GoodsActivity;
+import com.mall.demo.utils.LogUtils;
+import com.mall.demo.utils.MyConstant;
+import com.tencent.mmkv.MMKV;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -40,14 +51,14 @@ import butterknife.BindView;
 
 public class HomeFragment extends BaseFragment {
 
-    @BindView(R.id.ivCommonBack)
-    AppCompatImageView ivCommonBack;
-    @BindView(R.id.tvCommonTitle)
-    AppCompatTextView tvCommonTitle;
     @BindView(R.id.rcOrderList)
     RecyclerView rcHomeList;
     @BindView(R.id.layout_error)
     ViewGroup mLayoutError;
+    @BindView(R.id.etHome)
+    AppCompatEditText etHome;
+    @BindView(R.id.tvHomeAdd)
+    AppCompatTextView tvHomeAdd;
 
     private MainPresenter mPresenter;
     private HomeListAdapter homeAdapter;
@@ -56,6 +67,11 @@ public class HomeFragment extends BaseFragment {
     public static HomeFragment getInstance() {
         HomeFragment fragment = new HomeFragment();
         return fragment;
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void refreshGoodsList(GoodsEventBo eventBo) {
+        loadGoodsList("");
     }
 
     @Override
@@ -71,6 +87,7 @@ public class HomeFragment extends BaseFragment {
 
     @Override
     protected void initPresenter() {
+        EventBus.getDefault().register(this);
         mPresenter = new MainPresenter(new DataManager());
         //mPresenter.attachView(this);
         loadGoodsList("");
@@ -84,16 +101,43 @@ public class HomeFragment extends BaseFragment {
 
     @Override
     public void onDestroyView() {
+        EventBus.getDefault().unregister(this);
         super.onDestroyView();
     }
 
     @Override
     protected void init() {
         initStatusBar();
-        ivCommonBack.setVisibility(View.GONE);
-        tvCommonTitle.setText("商品");
         //String userName = MMKV.defaultMMKV().decodeString("user_name");
         //dataList = InfoUtil.getGoodsList(userName);
+        //跟随光标搜索
+        etHome.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                LogUtils.d("search==" + s.toString());
+                loadGoodsList(s.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        String role = MMKV.defaultMMKV().decodeString(MyConstant.ROLE);
+        if (role.equalsIgnoreCase("卖家")) {
+            tvHomeAdd.setVisibility(View.VISIBLE);
+            tvHomeAdd.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    EditActivity.launchActivity(activity);
+                }
+            });
+        }
     }
 
     private void loadGoodsList(String key) {
@@ -126,7 +170,11 @@ public class HomeFragment extends BaseFragment {
         protected void convert(@NotNull BaseViewHolder holder, GoodsBo itemBo) {
             ImageView ivImg = holder.getView(R.id.tvImg);
             //InfoUtil.setImg(itemBo.img, ivImg);
-            Glide.with(activity).load(itemBo.img).into(ivImg);
+            Glide.with(activity)
+                    .load(itemBo.img)
+                    .placeholder(R.drawable.icon_goods)
+                    .error(R.drawable.icon_goods)
+                    .into(ivImg);
             holder.setText(R.id.tvName, itemBo.title);
             holder.setText(R.id.tvSubtitle, itemBo.desc);
             holder.setText(R.id.tvPrice, "价格：" + itemBo.price);

@@ -9,7 +9,8 @@ package com.mall.demo.bean;
  */
 public class MsgListBo {
     public String msgId;
-    public String sendname;  //发送人员
+    public String sendName;  //发送人员
     public String receiveName;
     public String content;
+    public String createTime;
 }

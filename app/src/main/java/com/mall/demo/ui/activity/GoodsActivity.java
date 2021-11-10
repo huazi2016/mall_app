@@ -90,7 +90,11 @@ public class GoodsActivity extends BaseActivity {
                 public void onLoadSuccess(GoodsBo data) {
                     if (data != null) {
                         //InfoUtil.setImg(data.img, tvGoodImg);
-                        Glide.with(activity).load(data.bigImg).into(ivGoodImg);
+                        Glide.with(activity)
+                                .load(data.bigImg)
+                                .placeholder(R.drawable.icon_goods)
+                                .error(R.drawable.icon_goods)
+                                .into(ivGoodImg);
                         tvGoodsName.setText(data.title);
                         tvGoodsPrice.setText("¥" + data.price);
                         tvGoodsContent.setText(data.content);

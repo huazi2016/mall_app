@@ -40,7 +40,7 @@ public interface ApiService {
     Observable<BaseResponse<GoodsBo>> postPayGoods(@Body RequestBody body);
 
     @POST(BASE_URL + "rest/publishGoods")
-    Observable<BaseResponse<LoginBo>> posPublishGoods(@Body RequestBody body);
+    Observable<BaseResponse<GoodsBo>> postPublishGoods(@Body RequestBody body);
 
     @POST(BASE_URL + "rest/orderList")
     Observable<BaseResponse<List<OrderBo>>> postOrderList(@Body RequestBody body);

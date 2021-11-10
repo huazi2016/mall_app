@@ -34,8 +34,13 @@
         <activity
             android:name="com.mall.demo.ui.activity.MainActivity"
             android:launchMode="singleTask"
+            android:windowSoftInputMode="stateAlwaysHidden"
             android:screenOrientation="portrait">
         </activity>
+        <activity
+            android:name=".ui.activity.EditActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
         <activity
             android:name="com.mall.demo.ui.activity.RegisterActivity"
             android:launchMode="singleTask"
