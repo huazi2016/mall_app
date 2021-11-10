@@ -97,7 +97,7 @@ public class ChatActivity extends BaseActivity {
             sender = getIntent().getStringExtra(SENDER);
             receiver = getIntent().getStringExtra(RECEIVER);
             tvCommonTitle.setText(sender);
-            getMsgList(receiver);
+            getMsgList(sender);
         }
     }
 
@@ -110,7 +110,7 @@ public class ChatActivity extends BaseActivity {
                     ToastUtils.showShort("输入内容不能为空");
                 } else {
                     editText.setText("");
-                    sendMessage(msgId, receiver, text);
+                    sendMessage(msgId, sender, text);
                 }
             }
 
@@ -180,7 +180,7 @@ public class ChatActivity extends BaseActivity {
             LinearLayout llRightMsg = holder.getView(R.id.llRightMsg);
             AppCompatTextView tvLeftContent = holder.getView(R.id.tvLeftContent);
             AppCompatTextView tvRightContent = holder.getView(R.id.tvRightContent);
-            if (account.equalsIgnoreCase(msgBo.receiveName)) {
+            if (account.equalsIgnoreCase(receiver)) {
                 llLeftMsg.setVisibility(View.GONE);
                 llRightMsg.setVisibility(View.VISIBLE);
                 String sendText = msgBo.content;
