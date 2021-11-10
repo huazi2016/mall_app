@@ -38,6 +38,11 @@
             android:screenOrientation="portrait">
         </activity>
         <activity
+            android:name=".ui.activity.ChatActivity"
+            android:launchMode="singleTask"
+            android:windowSoftInputMode="stateAlwaysHidden"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".ui.activity.EditActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />

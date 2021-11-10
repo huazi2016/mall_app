@@ -3,17 +3,24 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/my/mall_app/app/src/main/res/drawable-xxxhdpi/send_button_bg.xml" value="0.3814814814814815" />
+        <entry key="..\:/my/mall_app/app/src/main/res/drawable/progressbar_circle_h.xml" value="0.38425925925925924" />
+        <entry key="..\:/my/mall_app/app/src/main/res/drawable/shape_chat_from_bg.xml" value="0.38425925925925924" />
         <entry key="..\:/my/mall_app/app/src/main/res/drawable/shape_f35463_cor8.xml" value="0.38055555555555554" />
         <entry key="..\:/my/mall_app/app/src/main/res/drawable/shape_home_bg.xml" value="0.38055555555555554" />
         <entry key="..\:/my/mall_app/app/src/main/res/drawable/shape_white_cor.xml" value="0.38055555555555554" />
+        <entry key="..\:/my/mall_app/app/src/main/res/layout/activity_chat.xml" value="0.2703804347826087" />
         <entry key="..\:/my/mall_app/app/src/main/res/layout/activity_edit.xml" value="0.2604166666666667" />
         <entry key="..\:/my/mall_app/app/src/main/res/layout/activity_goods.xml" value="0.27853260869565216" />
         <entry key="..\:/my/mall_app/app/src/main/res/layout/activity_goods_detail.xml" value="0.25" />
         <entry key="..\:/my/mall_app/app/src/main/res/layout/common_footview.xml" value="0.2703804347826087" />
         <entry key="..\:/my/mall_app/app/src/main/res/layout/home_fragment.xml" value="0.2703804347826087" />
+        <entry key="..\:/my/mall_app/app/src/main/res/layout/item_chat_msg.xml" value="0.2703804347826087" />
         <entry key="..\:/my/mall_app/app/src/main/res/layout/item_home_list.xml" value="0.2617753623188406" />
         <entry key="..\:/my/mall_app/app/src/main/res/layout/item_msg_list.xml" value="0.2703804347826087" />
         <entry key="..\:/my/mall_app/app/src/main/res/layout/item_order_list.xml" value="0.2703804347826087" />
+        <entry key="..\:/my/mall_app/app/src/main/res/layout/keyboard_bar_layout.xml" value="0.2644927536231884" />
+        <entry key="..\:/my/mall_app/app/src/main/res/layout/message_fragment.xml" value="0.2703804347826087" />
         <entry key="..\:/my/mall_app/app/src/main/res/layout/mine_fragment.xml" value="0.2703804347826087" />
       </map>
     </option>

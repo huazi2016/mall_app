@@ -70,6 +70,32 @@ public class DataManager {
         return apiService.postMessageList(body);
     }
 
+    public Observable<BaseResponse<List<MsgListBo>>> postMessageHistory(String receiver) {
+        String account = MMKV.defaultMMKV().decodeString(MyConstant.ACCOUNT);
+        HashMap<String, String> jsonMap = new HashMap();
+        jsonMap.put("account", account);
+        jsonMap.put("receiver", receiver);
+        String json = new Gson().toJson(jsonMap);
+        LogUtils.d("okhttp:==" + json);
+        String contentType = "application/json;charset=UTF-8";
+        RequestBody body = RequestBody.create(MediaType.parse(contentType), json);
+        return apiService.postMessageHistory(body);
+    }
+
+    public Observable<BaseResponse<MsgListBo>> postSendMessage(String msgId, String receiver, String content) {
+        String account = MMKV.defaultMMKV().decodeString(MyConstant.ACCOUNT);
+        HashMap<String, String> jsonMap = new HashMap();
+        jsonMap.put("account", account);
+        jsonMap.put("msgId", msgId);
+        jsonMap.put("receiver", receiver);
+        jsonMap.put("content", content);
+        String json = new Gson().toJson(jsonMap);
+        LogUtils.d("okhttp:==" + json);
+        String contentType = "application/json;charset=UTF-8";
+        RequestBody body = RequestBody.create(MediaType.parse(contentType), json);
+        return apiService.postSendMessage(body);
+    }
+
     public Observable<BaseResponse<LoginBo>> postUpdateUser(String name, String url) {
         String account = MMKV.defaultMMKV().decodeString(MyConstant.ACCOUNT);
         HashMap<String, String> jsonMap = new HashMap();

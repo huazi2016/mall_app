@@ -28,6 +28,7 @@ import com.mall.demo.bean.EventBo;
 import com.mall.demo.net.DataManager;
 import com.mall.demo.net.MainPresenter;
 import com.mall.demo.net.NetCallBack;
+import com.mall.demo.ui.activity.ChatActivity;
 
 import org.greenrobot.eventbus.EventBus;
 import org.jetbrains.annotations.NotNull;
@@ -141,7 +142,8 @@ public class MessageFragment extends BaseFragment {
             holder.setText(R.id.tvMsgContent, itemBo.content);
             holder.setText(R.id.tvMsgTime, itemBo.createTime);
             holder.itemView.setOnClickListener(v -> {
-                //跳转
+                //跳转聊天页
+                ChatActivity.launchActivity(activity, itemBo.msgId, itemBo.sendName, itemBo.receiveName);
             });
         }
     }

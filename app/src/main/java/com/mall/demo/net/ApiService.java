@@ -56,9 +56,12 @@ public interface ApiService {
     Observable<BaseResponse<OrderBo>> postRemoveOrder(@Body RequestBody body);
 
     @POST(BASE_URL + "rest/messageHistory")
-    Observable<BaseResponse<LoginBo>> postMessageHistory(@Body RequestBody body);
+    Observable<BaseResponse<List<MsgListBo>>> postMessageHistory(@Body RequestBody body);
 
     @POST(BASE_URL + "rest/messageList")
     Observable<BaseResponse<List<MsgListBo>>> postMessageList(@Body RequestBody body);
+
+    @POST(BASE_URL + "rest/sendMessage")
+    Observable<BaseResponse<MsgListBo>> postSendMessage(@Body RequestBody body);
 
 }

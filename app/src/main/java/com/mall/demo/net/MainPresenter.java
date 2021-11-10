@@ -424,6 +424,68 @@ public class MainPresenter extends BasePresenter<MainContract.View> {
                 });
     }
 
+    public void postMessageHistory(String receiver, NetCallBack<List<MsgListBo>> callBack) {
+        Observable<BaseResponse<List<MsgListBo>>> observable = dataManager.postMessageHistory(receiver);
+        observable.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<BaseResponse<List<MsgListBo>>>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        disposable = d;
+                    }
+
+                    @Override
+                    public void onNext(@NotNull BaseResponse<List<MsgListBo>> resultBo) {
+                        if (resultBo.getErrorCode() != 0) {
+                            callBack.onLoadFailed(resultBo.getErrorMsg());
+                            return;
+                        }
+                        callBack.onLoadSuccess(resultBo.getData());
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        callBack.onLoadFailed(e.getMessage());
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+    }
+
+    public void postSendMessage(String msgId, String receiver, String content, NetCallBack<MsgListBo> callBack) {
+        Observable<BaseResponse<MsgListBo>> observable = dataManager.postSendMessage(msgId, receiver, content);
+        observable.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<BaseResponse<MsgListBo>>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        disposable = d;
+                    }
+
+                    @Override
+                    public void onNext(@NotNull BaseResponse<MsgListBo> resultBo) {
+                        if (resultBo.getErrorCode() != 0) {
+                            callBack.onLoadFailed(resultBo.getErrorMsg());
+                            return;
+                        }
+                        callBack.onLoadSuccess(resultBo.getData());
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        callBack.onLoadFailed(e.getMessage());
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+    }
+
     public void postPublishGoods(String title, String desc, String content, String img, String price, NetCallBack<GoodsBo> callBack) {
         Observable<BaseResponse<GoodsBo>> observable = dataManager.postPublishGoods(title, desc, content, img, price);
         observable.subscribeOn(Schedulers.io())

@@ -17,7 +17,7 @@
         android:id="@+id/rcMsgList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:listitem="@layout/item_order_list"
+        tools:listitem="@layout/item_msg_list"
         tools:itemCount="3" />
 
     <include
