@@ -29,6 +29,8 @@ import com.mall.demo.net.DataManager;
 import com.mall.demo.net.MainPresenter;
 import com.mall.demo.net.NetCallBack;
 import com.mall.demo.ui.activity.ChatActivity;
+import com.mall.demo.utils.MyConstant;
+import com.tencent.mmkv.MMKV;
 
 import org.greenrobot.eventbus.EventBus;
 import org.jetbrains.annotations.NotNull;
@@ -55,6 +57,7 @@ public class MessageFragment extends BaseFragment {
     private MainPresenter mPresenter;
     private MsgListAdapter msgAdapter;
     private final List<MsgListBo> dataList = new ArrayList();
+    private String account = "";
 
     public static MessageFragment getInstance() {
         MessageFragment fragment = new MessageFragment();
@@ -125,6 +128,7 @@ public class MessageFragment extends BaseFragment {
     @Override
     protected void init() {
         initStatusBar();
+        account = MMKV.defaultMMKV().decodeString(MyConstant.ACCOUNT);
         ivCommonBack.setVisibility(View.GONE);
         tvCommonTitle.setText("消息");
         refreshInfo();
@@ -138,12 +142,17 @@ public class MessageFragment extends BaseFragment {
 
         @Override
         protected void convert(@NotNull BaseViewHolder holder, MsgListBo itemBo) {
-            holder.setText(R.id.tvMsgSender, "发送人：" +itemBo.sendName);
+            String name = itemBo.sendName;
+            if (account.equalsIgnoreCase(itemBo.sendName)) {
+                name = itemBo.receiveName;
+            }
+            holder.setText(R.id.tvMsgSender, name);
             holder.setText(R.id.tvMsgContent, itemBo.content);
             holder.setText(R.id.tvMsgTime, itemBo.createTime);
+            String finalName = name;
             holder.itemView.setOnClickListener(v -> {
                 //跳转聊天页
-                ChatActivity.launchActivity(activity, itemBo.msgId, itemBo.sendName, itemBo.receiveName);
+                ChatActivity.launchActivity(activity, itemBo.msgId, finalName);
             });
         }
     }

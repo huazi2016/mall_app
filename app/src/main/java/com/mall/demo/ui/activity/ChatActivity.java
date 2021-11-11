@@ -57,19 +57,14 @@ public class ChatActivity extends BaseActivity {
     private final static String SENDER = "sender";
     private MsgListAdapter msgAdapter;
     private final List<MsgListBo> dataList = new ArrayList();
-    private String userName = "";
     private String receiver = "";
-    private String sender = "";
     private String msgId = "";
-    private boolean isSeller;
-    private String role;
     private String account;
 
-    public static void launchActivity(Activity activity, String id, String sender, String receiver) {
+    public static void launchActivity(Activity activity, String id, String name) {
         Intent intent = new Intent(activity, ChatActivity.class);
         intent.putExtra(CHAT_ID, id);
-        intent.putExtra(SENDER, sender);
-        intent.putExtra(RECEIVER, receiver);
+        intent.putExtra(RECEIVER, name);
         activity.startActivity(intent);
     }
 
@@ -82,8 +77,6 @@ public class ChatActivity extends BaseActivity {
     protected void init(Bundle savedInstanceState) {
         initRecycleView();
         account = MMKV.defaultMMKV().decodeString(MyConstant.ACCOUNT);
-        role = MMKV.defaultMMKV().decodeString(MyConstant.ROLE);
-        isSeller = MMKV.defaultMMKV().decodeString(MyConstant.ROLE).equalsIgnoreCase("卖家");
         ivCommonBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -94,10 +87,9 @@ public class ChatActivity extends BaseActivity {
         setKeyBoardListener();
         if (getIntent() != null) {
             msgId = getIntent().getStringExtra(CHAT_ID);
-            sender = getIntent().getStringExtra(SENDER);
             receiver = getIntent().getStringExtra(RECEIVER);
-            tvCommonTitle.setText(sender);
-            getMsgList(sender);
+            tvCommonTitle.setText(receiver);
+            getMsgList(receiver);
         }
     }
 
@@ -110,7 +102,7 @@ public class ChatActivity extends BaseActivity {
                     ToastUtils.showShort("输入内容不能为空");
                 } else {
                     editText.setText("");
-                    sendMessage(msgId, sender, text);
+                    sendMessage(msgId, receiver, text);
                 }
             }
 
@@ -180,7 +172,7 @@ public class ChatActivity extends BaseActivity {
             LinearLayout llRightMsg = holder.getView(R.id.llRightMsg);
             AppCompatTextView tvLeftContent = holder.getView(R.id.tvLeftContent);
             AppCompatTextView tvRightContent = holder.getView(R.id.tvRightContent);
-            if (account.equalsIgnoreCase(receiver)) {
+            if (account.equalsIgnoreCase(msgBo.sendName)) {
                 llLeftMsg.setVisibility(View.GONE);
                 llRightMsg.setVisibility(View.VISIBLE);
                 String sendText = msgBo.content;
