@@ -16,4 +16,5 @@ public class GoodsBo implements Serializable {
     public String desc;
     public String content;
     public String price;
+    public String seller;
 }

@@ -65,6 +65,20 @@
             tools:listitem="@layout/item_home_list" />
 
         <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvHomeRefresh"
+            android:layout_width="@dimen/dp50"
+            android:layout_height="@dimen/dp50"
+            android:layout_marginRight="@dimen/dp20"
+            android:layout_marginBottom="@dimen/dp05"
+            android:background="@drawable/shape_home_bg"
+            android:gravity="center"
+            android:text="刷新"
+            android:textColor="@color/c_white"
+            android:textSize="@dimen/sp14"
+            app:layout_constraintBottom_toTopOf="@+id/tvHomeAdd"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvHomeAdd"
             android:layout_width="@dimen/dp50"
             android:layout_height="@dimen/dp50"
@@ -75,7 +89,7 @@
             android:text="发布"
             android:textColor="@color/c_white"
             android:textSize="@dimen/sp14"
-            android:visibility="gone"
+            android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             tools:visibility="visible" />

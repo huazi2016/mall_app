@@ -51,14 +51,11 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     implementation 'com.google.android.material:material:1.0.0'
-
     //design
     implementation 'com.android.support:design:29.0.0'
     //butterknife
     implementation 'com.jakewharton:butterknife:10.0.0'
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.0.0'
-    //banner
-    implementation 'com.youth.banner:banner:1.4.10'
     //retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.5.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
@@ -69,63 +66,46 @@ dependencies {
     //glide
     implementation 'com.github.bumptech.glide:glide:4.9.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
-
-    implementation 'q.rorbin:badgeview:1.1.3'
+    //implementation 'q.rorbin:badgeview:1.1.3'
     implementation 'com.airbnb.android:lottie:2.8.0'
-
     //cardview
     implementation 'com.android.support:cardview-v7:29.0.0'
-
     //recycleview
     implementation 'com.android.support:recyclerview-v7:29.0.0'
-
-    implementation 'com.just.agentweb:agentweb:4.0.2'
-    implementation 'com.just.agentweb:download:4.0.2'
-
-    implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-alpha-21'
-
-    implementation 'com.kingja.loadsir:loadsir:1.3.6'
-
-    implementation 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar'
-    implementation 'q.rorbin:VerticalTabLayout:1.2.5'
-
-    implementation 'com.hyman:flowlayout-lib:1.1.2'
-
-    implementation 'de.hdodenhof:circleimageview:3.0.0'
-
-    implementation 'com.blankj:utilcodex:1.26.0'
-
-    implementation 'org.greenrobot:eventbus:3.1.1'
-
-    implementation 'org.litepal.android:java:3.0.0'
-
-    implementation 'androidx.preference:preference:1.1.0-alpha04'
-
-    implementation 'com.afollestad.material-dialogs:core:3.1.1'
-
-    implementation 'com.afollestad.material-dialogs:color:3.1.1'
-
-    //implementation "androidx.core:core-ktx:+"
-    implementation "androidx.core:core:1.6.0"
-
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-
-    implementation 'com.kingja.loadsir:loadsir:1.3.6'
-
     implementation 'com.lxj:xpopup:2.2.23'
     implementation 'com.tencent:mmkv:1.2.2'
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.4'
-
     implementation 'com.squareup.okhttp3:okhttp:3.7.0'
     implementation 'com.squareup.okhttp3:logging-interceptor:3.7.0'
     implementation 'com.github.franmontiel:PersistentCookieJar:v1.0.1'
+    implementation 'com.blankj:utilcodex:1.26.0'
+    implementation 'org.greenrobot:eventbus:3.1.1'
+    implementation "androidx.core:core:1.6.0"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'androidx.preference:preference:1.1.0-alpha04'
+    implementation 'com.blankj:utilcodex:1.26.0'
+    implementation 'org.greenrobot:eventbus:3.1.1'
 
-    def room_version = "2.3.0"
-    implementation "androidx.room:room-runtime:$room_version"
-    annotationProcessor "androidx.room:room-compiler:$room_version"
-    implementation "androidx.room:room-rxjava2:$room_version"
-    implementation "androidx.room:room-guava:$room_version"
-    testImplementation "androidx.room:room-testing:$room_version"
+    //implementation 'com.youth.banner:banner:1.4.10'
+    //implementation 'com.just.agentweb:agentweb:4.0.2'
+    //implementation 'com.just.agentweb:download:4.0.2'
+    //implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-alpha-21'
+    //implementation 'com.kingja.loadsir:loadsir:1.3.6'
+    //implementation 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar'
+    //implementation 'q.rorbin:VerticalTabLayout:1.2.5'
+    //implementation 'com.hyman:flowlayout-lib:1.1.2'
+    //implementation 'de.hdodenhof:circleimageview:3.0.0'
+    //implementation 'org.litepal.android:java:3.0.0'
+    //implementation 'com.afollestad.material-dialogs:core:3.1.1'
+    //implementation 'com.afollestad.material-dialogs:color:3.1.1'
+    //implementation "androidx.core:core-ktx:+"
+    //implementation 'com.kingja.loadsir:loadsir:1.3.6'
+    //def room_version = "2.3.0"
+    //implementation "androidx.room:room-runtime:$room_version"
+    //annotationProcessor "androidx.room:room-compiler:$room_version"
+    //implementation "androidx.room:room-rxjava2:$room_version"
+    //implementation "androidx.room:room-guava:$room_version"
+    //testImplementation "androidx.room:room-testing:$room_version"
 }
 
 repositories {

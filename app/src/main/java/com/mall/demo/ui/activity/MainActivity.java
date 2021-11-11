@@ -1,11 +1,5 @@
 package com.mall.demo.ui.activity;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -14,15 +8,18 @@ import android.util.SparseArray;
 import android.view.View;
 import android.widget.Toast;
 
-import com.blankj.utilcode.util.ToastUtils;
-import com.google.android.material.bottomnavigation.BottomNavigationMenuView;
-import com.mall.demo.base.utils.Constant;
-import com.mall.demo.custom.loading.LoadingView;
-import com.mall.demo.R;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.mall.demo.R;
+import com.mall.demo.base.utils.Constant;
 import com.mall.demo.base.utils.Utils;
 import com.mall.demo.bean.EventBo;
+import com.mall.demo.custom.loading.LoadingView;
 import com.mall.demo.ui.fragment.HomeFragment;
 import com.mall.demo.ui.fragment.MessageFragment;
 import com.mall.demo.ui.fragment.MineFragment;
@@ -35,8 +32,6 @@ import org.greenrobot.eventbus.ThreadMode;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import q.rorbin.badgeview.Badge;
-import q.rorbin.badgeview.QBadgeView;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -134,7 +129,7 @@ public class MainActivity extends AppCompatActivity {
                             return false;
                     }
                 });
-        showBadgeView(4, 6);
+        //showBadgeView(4, 6);
     }
 
 
@@ -232,32 +227,32 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    /**
-     * 设置显示的未读数字
-     *
-     * @param index      当前bottom index
-     * @param showNumber 显示的未读数值
-     */
-    private void showBadgeView(int index, final int showNumber) {
-        BottomNavigationMenuView menuView = (BottomNavigationMenuView) mBottomNavigationView.getChildAt(0);
-        if (index < menuView.getChildCount()) {
-            View view = menuView.getChildAt(index);
-            View icon = view.findViewById(com.google.android.material.R.id.icon);
-            int iconWidth = icon.getWidth();
-            int tabWidth = view.getWidth() / 2;
-            int spaceWidth = tabWidth - iconWidth;
-            final QBadgeView qBadgeView = new QBadgeView(this);
-
-            qBadgeView.bindTarget(view).setGravityOffset(spaceWidth + 50, 13, false).setBadgeNumber(showNumber);
-            qBadgeView.setOnDragStateChangedListener(new Badge.OnDragStateChangedListener() {
-                @Override
-                public void onDragStateChanged(int dragState, Badge badge, View targetView) {
-                    qBadgeView.clearAnimation();
-                }
-            });
-
-        }
-    }
+//    /**
+//     * 设置显示的未读数字
+//     *
+//     * @param index      当前bottom index
+//     * @param showNumber 显示的未读数值
+//     */
+//    private void showBadgeView(int index, final int showNumber) {
+//        BottomNavigationMenuView menuView = (BottomNavigationMenuView) mBottomNavigationView.getChildAt(0);
+//        if (index < menuView.getChildCount()) {
+//            View view = menuView.getChildAt(index);
+//            View icon = view.findViewById(com.google.android.material.R.id.icon);
+//            int iconWidth = icon.getWidth();
+//            int tabWidth = view.getWidth() / 2;
+//            int spaceWidth = tabWidth - iconWidth;
+//            final QBadgeView qBadgeView = new QBadgeView(this);
+//
+//            qBadgeView.bindTarget(view).setGravityOffset(spaceWidth + 50, 13, false).setBadgeNumber(showNumber);
+//            qBadgeView.setOnDragStateChangedListener(new Badge.OnDragStateChangedListener() {
+//                @Override
+//                public void onDragStateChanged(int dragState, Badge badge, View targetView) {
+//                    qBadgeView.clearAnimation();
+//                }
+//            });
+//
+//        }
+//    }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(EventBo event) {

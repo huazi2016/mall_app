@@ -11,7 +11,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.kingja.loadsir.core.LoadService;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
@@ -27,7 +26,6 @@ public abstract class BaseFragment extends Fragment {
 
     protected Unbinder unbinder;
     protected View mRootView;
-    protected LoadService mLoadService;
     protected Activity activity;
 
     protected abstract void init();

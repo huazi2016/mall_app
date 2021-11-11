@@ -8,28 +8,18 @@ import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.MenuItem;
-import android.view.TextureView;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.blankj.utilcode.util.ToastUtils;
-import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.viewholder.BaseViewHolder;
-import com.lxj.xpopup.XPopup;
-import com.lxj.xpopup.interfaces.OnConfirmListener;
 import com.mall.demo.R;
 import com.mall.demo.base.activity.BaseActivity;
 import com.mall.demo.base.utils.Utils;
 import com.mall.demo.bean.LoginBo;
-import com.mall.demo.bean.PlanBo;
 import com.mall.demo.bean.UserEventBo;
 import com.mall.demo.custom.loading.LoadingView;
 import com.mall.demo.net.DataManager;
@@ -39,10 +29,6 @@ import com.mall.demo.utils.MyConstant;
 import com.tencent.mmkv.MMKV;
 
 import org.greenrobot.eventbus.EventBus;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -145,19 +131,6 @@ public class UserInfoActivity extends BaseActivity {
             default: {
                 break;
             }
-        }
-    }
-
-    private class OrderListAdapter extends BaseQuickAdapter<PlanBo, BaseViewHolder> {
-
-        public OrderListAdapter(int layoutResId, @Nullable List<PlanBo> data) {
-            super(layoutResId, data);
-        }
-
-        @Override
-        protected void convert(@NotNull BaseViewHolder holder, PlanBo itemBo) {
-            holder.setText(R.id.tvPlanName, itemBo.name);
-            holder.setText(R.id.tvPlanValue, itemBo.value);
         }
     }
 

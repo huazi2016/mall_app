@@ -16,24 +16,18 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
 
-import com.blankj.utilcode.util.CollectionUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.mall.demo.R;
 import com.mall.demo.base.activity.BaseActivity;
-import com.mall.demo.base.application.MyApp;
 import com.mall.demo.base.utils.Utils;
 import com.mall.demo.bean.LoginBo;
-import com.mall.demo.bean.UserBo;
 import com.mall.demo.custom.CustomEditText;
 import com.mall.demo.custom.loading.LoadingView;
-import com.mall.demo.dao.UserDao;
 import com.mall.demo.net.DataManager;
 import com.mall.demo.net.MainPresenter;
 import com.mall.demo.net.NetCallBack;
 import com.mall.demo.utils.MyConstant;
 import com.tencent.mmkv.MMKV;
-
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;

@@ -59,6 +59,8 @@ public class HomeFragment extends BaseFragment {
     AppCompatEditText etHome;
     @BindView(R.id.tvHomeAdd)
     AppCompatTextView tvHomeAdd;
+    @BindView(R.id.tvHomeRefresh)
+    AppCompatTextView tvHomeRefresh;
 
     private MainPresenter mPresenter;
     private HomeListAdapter homeAdapter;
@@ -138,6 +140,12 @@ public class HomeFragment extends BaseFragment {
                 }
             });
         }
+        tvHomeRefresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loadGoodsList("");
+            }
+        });
     }
 
     private void loadGoodsList(String key) {

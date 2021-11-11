@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -55,12 +56,16 @@ public class GoodsActivity extends BaseActivity {
     @BindView(R.id.tvGoodsContent)
     TextView tvGoodsContent;
 
+    @BindView(R.id.tvBuyChat)
+    TextView tvBuyChat;
+
     @BindView(R.id.loading_view)
     LoadingView mLoading;
 
     private Context mContext;
     private GoodsBo infoBo = null;
     private String goodId = "";
+    private String seller = "";
     private MainPresenter mPresenter;
 
     public static void launchActivity(Activity activity, GoodsBo itemBo) {
@@ -81,7 +86,9 @@ public class GoodsActivity extends BaseActivity {
         initToolbar();
         if (getIntent() != null) {
             infoBo = (GoodsBo) getIntent().getSerializableExtra("mall_info");
-            goodId = infoBo.goodsId;
+            if (infoBo != null) {
+                goodId = infoBo.goodsId;
+            }
             if (mPresenter == null) {
                 mPresenter = new MainPresenter(new DataManager());
             }
@@ -92,12 +99,17 @@ public class GoodsActivity extends BaseActivity {
                         //InfoUtil.setImg(data.img, tvGoodImg);
                         Glide.with(activity)
                                 .load(data.bigImg)
-                                .placeholder(R.drawable.icon_goods)
-                                .error(R.drawable.icon_goods)
+                                .placeholder(R.drawable.big_goods01)
+                                .error(R.drawable.big_goods01)
                                 .into(ivGoodImg);
                         tvGoodsName.setText(data.title);
                         tvGoodsPrice.setText("¥" + data.price);
                         tvGoodsContent.setText(data.content);
+                        if (!TextUtils.isEmpty(data.seller)) {
+                            tvBuyChat.setVisibility(View.VISIBLE);
+                            seller = data.seller;
+                        }
+
                     }
                 }
 
@@ -136,31 +148,40 @@ public class GoodsActivity extends BaseActivity {
     }
 
 
-    @OnClick(R.id.tvBuyBtn)
-    public void buy() {
-        new XPopup.Builder(activity).asConfirm("", "确认支付吗?", "取消", "支付",
-                new OnConfirmListener() {
-                    @Override
-                    public void onConfirm() {
-                        mPresenter.postPayGoods(goodId, new NetCallBack<GoodsBo>() {
+    @OnClick({R.id.tvBuyBtn, R.id.tvBuyChat})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.tvBuyBtn: {
+                new XPopup.Builder(activity).asConfirm("", "确认支付吗?", "取消", "支付",
+                        new OnConfirmListener() {
                             @Override
-                            public void onLoadSuccess(GoodsBo data) {
-                                ToastUtils.showShort("支付完成, 请查看订单");
-                                OrderActivity.launchActivity(activity);
-                            }
+                            public void onConfirm() {
+                                mPresenter.postPayGoods(goodId, new NetCallBack<GoodsBo>() {
+                                    @Override
+                                    public void onLoadSuccess(GoodsBo data) {
+                                        ToastUtils.showShort("支付完成, 请查看订单");
+                                        OrderActivity.launchActivity(activity);
+                                    }
 
+                                    @Override
+                                    public void onLoadFailed(String errMsg) {
+                                        ToastUtils.showShort("支付失败, 服务异常");
+                                    }
+                                });
+                            }
+                        }, new OnCancelListener() {
                             @Override
-                            public void onLoadFailed(String errMsg) {
-                                ToastUtils.showShort("支付失败, 服务异常");
-                            }
-                        });
-                    }
-                }, new OnCancelListener() {
-                    @Override
-                    public void onCancel() {
+                            public void onCancel() {
 
-                    }
-                }, false).show();
+                            }
+                        }, false).show();
+                break;
+            }
+            case R.id.tvBuyChat: {
+                ChatActivity.launchActivity(activity, goodId, seller);
+                break;
+            }
+        }
     }
 
     private void startAnim() {
